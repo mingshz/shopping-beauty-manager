@@ -21,6 +21,7 @@
     "fastclick": "^1.0.6",
     "lodash-decorators": "^4.5.0",
     "moment": "^2.20.1",
+    "qrcode.react": "^0.7.2",
     "rc-drawer-menu": "^0.5.4",
     "react": "^16.2.0",
     "react-container-query": "^0.10.0",
@@ -77,7 +78,7 @@
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/tests/styleMock.js"
     },
-    "testPathIgnorePatterns":[
+    "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/src/services/"
     ]

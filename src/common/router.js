@@ -52,7 +52,7 @@ export const getRouterData = (app) => {
       redirectPath: '/login/login',
     },
     '/login/login': {
-      component: dynamicWrapper(app, [], () => import('../routes/LoginPage')),
+      component: dynamicWrapper(app, ['global'], () => import('../routes/LoginPage')),
       authority: 'guest',
     },
     // '/user/:id': {

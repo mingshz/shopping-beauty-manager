@@ -1,5 +1,5 @@
 import equals from 'equals';
-import { getCurrent } from '../services/manager';
+import { getCurrent, loginRequest, loginResult, logout } from '../services/manager';
 import { setLocalAuthority, getLocalAuthority } from '../utils/authorityStorage';
 
 /**
@@ -21,6 +21,19 @@ function equalsAuthorities(a, b) {
   return false;
 }
 
+function loginAs(put, current) {
+  return put({
+    type: 'changeCurrentUser',
+    payload: {
+      ...current,
+      name: current.username,
+      avatar: current.avatar || 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
+      notifyCount: current.notifyCount || 0,
+      authorities: current.authorities || 'guest',
+    },
+  });
+}
+
 export default {
   namespace: 'global',
   state: {
@@ -33,9 +46,38 @@ export default {
      * 包括name,avatar,notifyCount
      */
     currentUser: {},
+    /**
+     * 当前的登录请求
+     * 包含id,url
+     */
+    loginRequest: {},
   },
   effects: {
-    *logout(_, { put }) {
+    /**
+     * 检查登录状态
+     */
+    *loginResult({ payload }, { call, put }) {
+      const result = yield call(loginResult, payload);
+      if (result) {
+        yield loginAs(put, result);
+      }
+    },
+    /**
+     * 请求登录
+     */
+    *loginRequest(_, { call, put }) {
+      const result = yield call(loginRequest);
+      if (result.data) {
+        yield loginAs(put, result.data);
+        return;
+      }
+      yield put({
+        type: 'changeLoginRequest',
+        payload: result,
+      });
+    },
+    *logout(_, { put, call }) {
+      yield call(logout);
       yield put({
         type: 'changeCurrentUser',
       });
@@ -52,16 +94,7 @@ export default {
           type: 'changeCurrentUser',
         });
       } else {
-        yield put({
-          type: 'changeCurrentUser',
-          payload: {
-            ...current,
-            name: current.username,
-            avatar: current.avatar || 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
-            notifyCount: current.notifyCount || 0,
-            authorities: current.authorities || 'guest',
-          },
-        });
+        yield loginAs(put, current);
       }
       yield put({
         type: 'changeLoading',
@@ -72,6 +105,12 @@ export default {
     // },
   },
   reducers: {
+    changeLoginRequest(state, action) {
+      return {
+        ...state,
+        loginRequest: action.payload,
+      };
+    },
     changeLoading(state, action) {
       return {
         ...state,
