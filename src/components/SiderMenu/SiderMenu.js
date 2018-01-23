@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import { Link } from 'dva/router';
 import styles from './index.less';
+import { siteTitle } from '../../../package.json';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -203,7 +204,7 @@ export default class SiderMenu extends PureComponent {
         <div className={styles.logo} key="logo">
           <Link to="/">
             <img src={logo} alt="logo" />
-            <h1>Ant Design Pro</h1>
+            <h1>{siteTitle}</h1>
           </Link>
         </div>
         <Menu
