@@ -75,7 +75,7 @@
       "\\.(css|less)$": "<rootDir>/tests/styleMock.js"
     }
   },
-  "siteTitle": "标准后台",
-  "siteSummary": "这是我们的标准后台",
+  "siteTitle": "锋尚来美",
+  "siteSummary": "锋尚来美控制后台",
   "siteCopyright": "2017 杭州名顺信息科技有限公司"
 }
