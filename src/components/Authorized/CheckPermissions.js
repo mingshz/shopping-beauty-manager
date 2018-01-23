@@ -16,6 +16,15 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
   if (!authority) {
     return target;
   }
+  // root 无所畏惧，除了要求是匿名
+  if (authority.constructor.name !== 'String' || authority !== 'guest') {
+    if (currentAuthority && currentAuthority.constructor.name === 'String' && currentAuthority === 'root') {
+      return target;
+    }
+    if (currentAuthority && currentAuthority.constructor.name === 'Array' && currentAuthority.includes('root')) {
+      return target;
+    }
+  }
   // 数组处理
   if (authority.constructor.name === 'Array') {
     if (currentAuthority.constructor.name === 'String' && authority.includes(currentAuthority)) {

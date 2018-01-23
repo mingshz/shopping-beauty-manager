@@ -87,7 +87,7 @@ class BasicLayout extends React.PureComponent {
       });
     });
     this.props.dispatch({
-      type: 'user/fetchCurrent',
+      type: 'global/fetchCurrent',
     });
   }
   getPageTitle() {
@@ -115,7 +115,7 @@ class BasicLayout extends React.PureComponent {
   handleMenuClick = ({ key }) => {
     if (key === 'logout') {
       this.props.dispatch({
-        type: 'login/logout',
+        type: 'global/logout',
       });
     }
   }
@@ -219,7 +219,7 @@ class BasicLayout extends React.PureComponent {
 }
 
 export default connect(state => ({
-  // currentUser: state.user.currentUser,
+  currentUser: state.global.currentUser,
   collapsed: state.global.collapsed,
   // fetchingNotices: state.global.fetchingNotices,
   // notices: state.global.notices,

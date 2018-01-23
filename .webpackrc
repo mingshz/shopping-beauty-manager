@@ -2,6 +2,7 @@
   "entry": "src/index.js",
   "extraBabelPlugins": [
     "transform-decorators-legacy",
+    "transform-async-to-generator",
     ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }]
   ],
   "env": {

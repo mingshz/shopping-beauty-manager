@@ -12,6 +12,10 @@ export function getLocalAuthority() {
  * @param {String || Array<String>} authority  需要被保存的权限
  */
 export function setLocalAuthority(authority) {
+  if (!authority) {
+    localStorage.removeItem('antd-pro-authority');
+    return;
+  }
   return localStorage.setItem('antd-pro-authority', authority);
 }
 

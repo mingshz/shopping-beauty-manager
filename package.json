@@ -17,6 +17,7 @@
     "array-intersection": "^0.1.2",
     "dva": "^2.1.0",
     "enquire-js": "^0.1.2",
+    "equals": "^1.0.5",
     "fastclick": "^1.0.6",
     "lodash-decorators": "^4.5.0",
     "moment": "^2.20.1",
@@ -34,6 +35,7 @@
     "babel-jest": "^22.1.0",
     "babel-plugin-dva-hmr": "^0.3.2",
     "babel-plugin-import": "^1.6.3",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "eslint": "^4.14.0",
@@ -56,6 +58,7 @@
     ],
     "plugins": [
       "transform-class-properties",
+      "transform-async-to-generator",
       "@babel/plugin-syntax-decorators"
     ]
   },
@@ -73,7 +76,11 @@
     ],
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/tests/styleMock.js"
-    }
+    },
+    "testPathIgnorePatterns":[
+      "<rootDir>/node_modules/",
+      "<rootDir>/src/services/"
+    ]
   },
   "siteTitle": "锋尚来美",
   "siteSummary": "锋尚来美控制后台",
