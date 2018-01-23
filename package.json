@@ -1,0 +1,81 @@
+{
+  "private": true,
+  "scripts": {
+    "debug": "node --nolazy node_modules/.bin/roadhog server",
+    "start": "roadhog server",
+    "build": "roadhog build",
+    "lint": "eslint --ext .js src test",
+    "precommit": "npm run lint",
+    "test": "jest",
+    "test:comps": "jest ./src/components",
+    "test:all": "node ./tests/run-tests.js"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0-beta.38",
+    "@babel/runtime": "^7.0.0-beta.38",
+    "antd": "^3.1.4",
+    "array-intersection": "^0.1.2",
+    "dva": "^2.1.0",
+    "enquire-js": "^0.1.2",
+    "fastclick": "^1.0.6",
+    "lodash-decorators": "^4.5.0",
+    "moment": "^2.20.1",
+    "rc-drawer-menu": "^0.5.4",
+    "react": "^16.2.0",
+    "react-container-query": "^0.10.0",
+    "react-document-title": "^2.0.3",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-decorators": "^7.0.0-beta.38",
+    "@babel/preset-env": "^7.0.0-beta.38",
+    "@babel/preset-react": "^7.0.0-beta.38",
+    "@mingshz/roadhog": "2.1.0-1",
+    "babel-jest": "^22.1.0",
+    "babel-plugin-dva-hmr": "^0.3.2",
+    "babel-plugin-import": "^1.6.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "eslint": "^4.14.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-umi": "^0.1.1",
+    "eslint-plugin-compat": "^2.1.0",
+    "eslint-plugin-flowtype": "^2.34.1",
+    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "husky": "^0.12.0",
+    "jest": "^22.1.4",
+    "jsdom": "^11.6.0",
+    "redbox-react": "^1.4.3"
+  },
+  "babel": {
+    "presets": [
+      "@babel/env",
+      "@babel/react"
+    ],
+    "plugins": [
+      "transform-class-properties",
+      "@babel/plugin-syntax-decorators"
+    ]
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/tests/setupTests.js"
+    ],
+    "testMatch": [
+      "**/?(*.)(spec|test|e2e).js?(x)"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/jasmine.js",
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less)$": "<rootDir>/tests/styleMock.js"
+    }
+  },
+  "siteTitle": "标准后台",
+  "siteSummary": "这是我们的标准后台",
+  "siteCopyright": "2017 杭州名顺信息科技有限公司"
+}
