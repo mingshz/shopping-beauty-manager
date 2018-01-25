@@ -35,7 +35,8 @@ export default class MerchantTable extends PureComponent {
   }
   render() {
     const { selectedRowKeys } = this.state;
-    const { data: { list, pagination }, loading, doDelete } = this.props;
+    const { data: { list, pagination, changingEnableId }, loading, doDelete
+      , changeEnabledSupplier } = this.props;
 
     // const status = ['关闭', '运行中', '已上线', '异常'];
 
@@ -67,8 +68,18 @@ export default class MerchantTable extends PureComponent {
       {
         title: '激活',
         dataIndex: 'enabled',
-        render: (value) => {
-          return (<Switch disabled checked={value} />);
+        render: (value, obj) => {
+          let onChange = null;
+          if (changeEnabledSupplier) {
+            // 获取改变的方法
+            onChange = changeEnabledSupplier(obj.loginId);
+          }
+          return (
+            <Switch
+              onChange={onChange}
+              checked={value}
+              loading={changingEnableId === obj.loginId}
+            />);
         },
       },
       {

@@ -1,4 +1,4 @@
-import { getMerchant, newMerchant } from '../services/merchant';
+import { getMerchant, newMerchant, updateEnabled } from '../services/merchant';
 
 export default {
   namespace: 'merchant',
@@ -13,8 +13,26 @@ export default {
      * 新增表单的数据
      */
     creation: {},
+    /**
+     * 正在改变enable状态id
+     */
+    changingEnableId: null,
   },
   effects: {
+    /**
+     * payload包含id,target
+     */
+    *changeEnableTo({ payload }, { call, put }) {
+      yield put({
+        type: 'changingEnable',
+        payload: payload.id,
+      });
+      yield call(updateEnabled, payload.id, payload.target);
+      yield put({
+        type: 'changedEnable',
+        payload,
+      });
+    },
     *add({ payload, callback }, { call, put }) {
       yield put({
         type: 'changeChanging',
@@ -55,6 +73,27 @@ export default {
     },
   },
   reducers: {
+    changedEnable(state, action) {
+      // loginId
+      return {
+        ...state,
+        // 调整 data.list 中符合条件的值
+        data: {
+          ...state.data,
+          list: state.data.list.map(l => (l.loginId === action.payload.id ? {
+            ...l,
+            enabled: action.payload.target,
+          } : l)),
+        },
+        changingEnableId: null,
+      };
+    },
+    changingEnable(state, action) {
+      return {
+        ...state,
+        changingEnableId: action.payload,
+      };
+    },
     changeCreation(state, action) {
       return {
         ...state,

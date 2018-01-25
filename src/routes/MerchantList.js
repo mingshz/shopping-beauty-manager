@@ -136,10 +136,20 @@ export default class MerchangeList extends PureComponent {
           onOk={this.forLoginOk}
         />
       </Form>
-      //   {/* </Col>
-      // </Row> */}
     );
   }
+  changeEnabledSupplier = id => (value) => {
+    this.props.dispatch({
+      type: 'merchant/changeEnableTo',
+      payload: {
+        id,
+        target: value,
+      },
+    });
+  }
+  /**
+   * 显示在表单中 可以被点击然后弹出选择框的内容
+   */
   newLoginName = () => {
     const { data: { creation } } = this.props;
     if (!creation.id) {
@@ -160,11 +170,13 @@ export default class MerchangeList extends PureComponent {
     });
   }
   forLogin= () => {
-    // openLoginSelector(this);
     this.setState({
       openLoginSelector: true,
     });
   }
+  /**
+   * 执行增加任务
+   */
   doAdd = (data, closeModal) => {
     this.props.dispatch({
       type: 'merchant/add',
@@ -210,6 +222,9 @@ export default class MerchangeList extends PureComponent {
           loading={loading}
           table={MerchantTable}
           renderFormComponent={this.searchForm}
+          propsTable={{
+            changeEnabledSupplier: this.changeEnabledSupplier,
+          }}
           creationTitle="新增商户"
           creationRender={this.onCreateRender}
           creationAction={this.doAdd}
