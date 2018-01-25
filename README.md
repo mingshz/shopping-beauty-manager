@@ -24,3 +24,9 @@
 * .webpackrc webpack打包配置文件
 * jsonconfig.json 就干了一个事儿，允许使用装饰器@
 * package.json ...
+## 开始吧
+获取之后，执行
+```bash
+npm i && npm start
+```
+项目自带了mock系统，若需要调整mock API直接在Editor完成即可。
