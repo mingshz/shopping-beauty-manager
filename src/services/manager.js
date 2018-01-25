@@ -36,7 +36,7 @@ export async function loginResult(id) {
   // console.log('id:', id, ',after:', encodeURIComponent(id));
   return request(`/manageLoginResult/${encodeURIComponent(id)}`, {
     Accept: 'application/json',
-  }, (response) => {
+  }).then((response) => {
     if (response.status === 204) {
       return null;
     }

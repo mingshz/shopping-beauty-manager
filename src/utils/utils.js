@@ -1,3 +1,8 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+// eslint-disable-next-line
+const IS_REACT_16 = !!ReactDOM.createPortal;
 
 function getRelation(str1, str2) {
   if (str1 === str2) {
@@ -39,3 +44,35 @@ export function getRoutes(path, routerData) {
   return renderRoutes;
 }
 
+export function openLoginSelector(page, okHandler, config) {
+  const LocalLoginSelector = page.routeData['/util/loginSelector'].component;
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+
+  function close(...args) {
+    if (IS_REACT_16) {
+      render({ ...config, close, visible: false, afterClose: destroy.bind(this, ...args) });
+    } else {
+      destroy(...args);
+    }
+  }
+  // eslint-disable-next-line
+    function destroy(...args) {
+    const unmountResult = ReactDOM.unmountComponentAtNode(div);
+    if (unmountResult && div.parentNode) {
+      div.parentNode.removeChild(div);
+    }
+    const triggerCancel = args && args.length &&
+      args.some(param => param && param.triggerCancel);
+    if (config.onCancel && triggerCancel) {
+      config.onCancel(...args);
+    }
+  }
+  function render(props) {
+    ReactDOM.render(<LocalLoginSelector {...props} />, div);
+  }
+  render({ ...config, visible: true, close });
+  return {
+    destroy: close,
+  };
+}

@@ -3,6 +3,21 @@ const menuData = [{
   icon: 'welcome',
   path: 'index',
 }, {
+  name: '用户管理',
+  icon: 'user',
+  path: 'users',
+  authority: 'user',
+  children: [{
+    name: '用户',
+    path: 'login',
+  }, {
+    name: '商户',
+    path: 'merchant',
+  // }, {
+  //   name: '注册结果',
+  //   path: 'register-result',
+  }],
+}, {
   name: '账户',
   icon: 'login',
   path: 'login',
