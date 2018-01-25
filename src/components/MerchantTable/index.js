@@ -43,7 +43,7 @@ export default class MerchantTable extends PureComponent {
     const columns = [
       {
         title: 'ID',
-        dataIndex: 'loginId',
+        dataIndex: 'merchantId',
       },
       {
         title: '登录名',
@@ -72,13 +72,13 @@ export default class MerchantTable extends PureComponent {
           let onChange = null;
           if (changeEnabledSupplier) {
             // 获取改变的方法
-            onChange = changeEnabledSupplier(obj.loginId);
+            onChange = changeEnabledSupplier(obj.merchantId);
           }
           return (
             <Switch
               onChange={onChange}
               checked={value}
-              loading={changingEnableId === obj.loginId}
+              loading={changingEnableId === obj.merchantId}
             />);
         },
       },
@@ -132,7 +132,7 @@ export default class MerchantTable extends PureComponent {
         </div>
         <Table
           loading={loading}
-          rowKey="loginId"
+          rowKey="merchantId"
           // rowKey={record => record.key}
           rowSelection={rowSelection}
           dataSource={list}
