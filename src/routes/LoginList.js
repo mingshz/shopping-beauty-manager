@@ -33,6 +33,32 @@ class LoginList extends PureComponent {
       type: 'login/fetch',
     });
   }
+  fetchData = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'login/fetch',
+    });
+  }
+  updateLoginManageableSupplier = id => (value) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'manager/updateManageable',
+      payload: {
+        id,
+        target: value,
+      },
+      callback: this.fetchData,
+    });
+  }
+  changeEnabledSupplier = id => (value) => {
+    this.props.dispatch({
+      type: 'login/changeEnableTo',
+      payload: {
+        id,
+        target: value,
+      },
+    });
+  }
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
     const { dispatch } = this.props;
     const { formValues } = this.state;
@@ -155,7 +181,7 @@ class LoginList extends PureComponent {
   }
 
   render() {
-    const { data: { loading, data } } = this.props;
+    const { data: { loading, data, changingEnableId } } = this.props;
     const { selectedRows } = this.state;
 
     return (
@@ -189,6 +215,9 @@ class LoginList extends PureComponent {
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
               doDelete={this.handleRemove}
+              updateLoginManageableSupplier={this.updateLoginManageableSupplier}
+              changeEnabledSupplier={this.changeEnabledSupplier}
+              changingEnableId={changingEnableId}
             />
           </div>
         </Card>

@@ -1,5 +1,5 @@
 import { stringify } from 'qs';
-import request, { requestJson } from '../utils/request';
+import request, { requestJson, putJson } from '../utils/request';
 
 /**
  * 用户列表
@@ -7,6 +7,16 @@ import request, { requestJson } from '../utils/request';
  */
 export async function getLogin(params) {
   return requestJson(`/login?${stringify(params)}`);
+}
+
+/**
+ * @param {String} id 用户id
+ * @param {boolean} enabled 与调整到的状态
+ */
+export async function updateEnabled(id, enabled) {
+  return putJson(`/login/${id}`, {
+    enable: enabled,
+  });
 }
 
 export async function postExample(params) {

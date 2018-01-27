@@ -1,5 +1,5 @@
 import { stringify } from 'qs';
-import request, { requestJson } from '../utils/request';
+import request, { requestJson, putJson } from '../utils/request';
 
 /**
  * 登出
@@ -47,8 +47,42 @@ export async function loginResult(id) {
   });
 }
 
-export function getExample(params) {
-  return request(`/api/get?${stringify(params)}`);
+const authorityTable = {
+  ROLE_ROOT: '全权限',
+  ROLE_AUDIT_ITEM: '项目审核',
+  ROLE_MANAGE_ITEM: '平台未知',
+  ROLE_MERCHANT_ROOT: '商户所有者',
+  ROLE_MERCHANT_OPERATOR: '商户操作者',
+  ROLE_STORE_ROOT: '门店所有者',
+  ROLE_STORE_OPERATOR: '门店操作者',
+  ROLE_REPRESENT: '未知',
+};
+/**
+ * 将权限变成人类可读
+ * @param {String} 原始权限
+ * @returns {String} 可读权限
+ */
+export function authorityName(str) {
+  return authorityTable[str] || str;
+}
+
+/**
+ * 获取管理员
+ * @param {*} params 支持username查询
+ */
+export async function getManager(params) {
+  return requestJson(`/manage?${stringify(params)}`);
+}
+
+/**
+ * 改变某登录的可管理状态
+ * @param {String} id id
+ * @param {boolean} target 是否可管理
+ */
+export async function updateManageable(id, target) {
+  putJson(`/manage/${encodeURIComponent(id)}`, {
+    manageable: target,
+  });
 }
 
 export function postExample(params) {

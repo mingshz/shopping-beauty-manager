@@ -56,10 +56,18 @@ export const getRouterData = (app) => {
       authority: 'guest',
     },
     '/users/login': {
-      component: dynamicWrapper(app, ['login'], () => import('../routes/LoginList')),
+      component: dynamicWrapper(app, ['login', 'manager'], () => import('../routes/LoginList')),
+    },
+    '/users/manager': {
+      component: dynamicWrapper(app, ['login', 'manager'], () => import('../routes/ManagerList')),
+      authority: 'ROLE_ROOT',
     },
     '/users/merchant': {
       component: dynamicWrapper(app, ['merchant', 'login'], () => import('../routes/MerchantList')),
+      authority: 'ROLE_ROOT',
+    },
+    '/users/:managerId': {
+      component: dynamicWrapper(app, ['merchant', 'login'], () => import('../routes/MerchantManagerList')),
     },
     // '/util/loginSelector': {
     //   component: dynamicWrapper(app, ['login'], () => import('../components/LoginSelector')),

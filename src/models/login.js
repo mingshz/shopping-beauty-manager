@@ -1,4 +1,4 @@
-import { getLogin } from '../services/login';
+import { getLogin, updateEnabled } from '../services/login';
 /**
  * 登录身份管理
  */
@@ -13,6 +13,20 @@ export default {
     select: [],
   },
   effects: {
+    /**
+     * payload包含id,target
+     */
+    *changeEnableTo({ payload }, { call, put }) {
+      yield put({
+        type: 'changingEnable',
+        payload: payload.id,
+      });
+      yield call(updateEnabled, payload.id, payload.target);
+      yield put({
+        type: 'changedEnable',
+        payload,
+      });
+    },
     *selectLogin({ payload }, { call, put }) {
       const result = yield call(getLogin, {
         mobile: payload,
@@ -42,6 +56,27 @@ export default {
     },
   },
   reducers: {
+    changedEnable(state, action) {
+      // loginId
+      return {
+        ...state,
+        // 调整 data.list 中符合条件的值
+        data: {
+          ...state.data,
+          list: state.data.list.map(l => (l.id === action.payload.id ? {
+            ...l,
+            enabled: action.payload.target,
+          } : l)),
+        },
+        changingEnableId: null,
+      };
+    },
+    changingEnable(state, action) {
+      return {
+        ...state,
+        changingEnableId: action.payload,
+      };
+    },
     changeLoading(state, action) {
       return {
         ...state,

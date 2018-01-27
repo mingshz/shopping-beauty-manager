@@ -1,9 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Alert, Table, Switch } from 'antd';
+import { Alert, Table, Switch, Tag } from 'antd';
 import styles from './index.less';
-import Authorized from '../Authorized/Authorized';
+import { authorityName } from '../../services/manager';
 
-export default class LoginTable extends PureComponent {
+export default class ManagerTable extends PureComponent {
   state = {
     selectedRowKeys: [],
   };
@@ -36,48 +36,46 @@ export default class LoginTable extends PureComponent {
   }
   render() {
     const { selectedRowKeys } = this.state;
-    const { data: { list, pagination }, loading, doDelete
-      , updateLoginManageableSupplier, changeEnabledSupplier, changingEnableId } = this.props;
+    const { data: { list, pagination }, loading, doDelete, revokeManagerSupplier } = this.props;
 
     // const status = ['关闭', '运行中', '已上线', '异常'];
+    // const clickMe = id => () => {
+    //   console.log('click me ', id);
+    // };
 
     const columns = [
       {
         title: 'ID',
         dataIndex: 'id',
+        // render: (value) => {
+        //   return <span onClick={subPageClickSupplier(value)}>{value}</span>;
+        // },
       },
       {
         title: '登录名',
-        dataIndex: 'loginName',
+        dataIndex: 'username',
       },
       {
         title: '昵称',
         dataIndex: 'nickName',
       },
-      {
-        title: '创建时间',
-        dataIndex: 'createTime',
-      },
+      // {
+      //   title: '联系人',
+      //   dataIndex: 'contact',
+      // },
+      // {
+      //   title: '联系电话',
+      //   dataIndex: 'telephone',
+      // },
+      // {
+      //   title: '地址',
+      //   dataIndex: 'address',
+      // },
+      // "merchantId": 0,
+      // "storeId": 0,
       {
         title: '激活',
         dataIndex: 'enabled',
-        render: (value, obj) => {
-          let onChange = null;
-          if (changeEnabledSupplier) {
-            // 获取改变的方法
-            onChange = changeEnabledSupplier(obj.id);
-          }
-          return (
-            <Switch
-              onChange={onChange}
-              checked={value}
-              loading={changingEnableId === obj.id}
-            />);
-        },
-      },
-      {
-        title: '可推荐',
-        dataIndex: 'guidable',
         render: (value) => {
           // let onChange = null;
           // if (changeEnabledSupplier) {
@@ -92,29 +90,36 @@ export default class LoginTable extends PureComponent {
             />);
         },
       },
+      {
+        title: '创建时间',
+        dataIndex: 'createTime',
+      },
+      {
+        title: '权限',
+        dataIndex: 'authorities',
+        render: (value) => {
+          return value.map(str => authorityName(str)).map(name => (<Tag>{name}</Tag>));
+        },
+      },
     ];
-    // 设置了 动作才给予响应
-    // manageable
-    if (updateLoginManageableSupplier) {
-      // 如果有权限就给，不然就不给
+
+    // 此处可以撤销管理员
+    if (revokeManagerSupplier) {
       columns.push({
-        title: '可管理',
-        dataIndex: 'manageable',
-        render: (value, data) => {
-          const oc = updateLoginManageableSupplier(data.id);
+        title: '操作',
+        render(value, data) {
+          const revoke = revokeManagerSupplier(data.id);
           return (
-            <Authorized
-              authority="ROLE_ROOT"
-              noMatch={(
-                <Switch checked={value} disable={false} />
-              )}
-            >
-              <Switch checked={value} onChange={oc} />
-            </Authorized>
+            <Fragment>
+              <a onClick={revoke}>撤销</a>
+              {/* <Divider type="vertical" />
+            <a href="">订阅警报</a> */}
+            </Fragment>
           );
         },
       });
     }
+
 
     if (doDelete) {
       columns.push({

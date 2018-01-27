@@ -18,10 +18,10 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
   }
   // root 无所畏惧，除了要求是匿名
   if (authority.constructor.name !== 'String' || authority !== 'guest') {
-    if (currentAuthority && currentAuthority.constructor.name === 'String' && currentAuthority === 'root') {
+    if (currentAuthority && currentAuthority.constructor.name === 'String' && currentAuthority === 'ROLE_ROOT') {
       return target;
     }
-    if (currentAuthority && currentAuthority.constructor.name === 'Array' && currentAuthority.includes('root')) {
+    if (currentAuthority && currentAuthority.constructor.name === 'Array' && currentAuthority.includes('ROLE_ROOT')) {
       return target;
     }
   }

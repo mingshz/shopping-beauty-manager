@@ -36,14 +36,20 @@ export default class MerchantTable extends PureComponent {
   render() {
     const { selectedRowKeys } = this.state;
     const { data: { list, pagination, changingEnableId }, loading, doDelete
-      , changeEnabledSupplier } = this.props;
+      , changeEnabledSupplier, subPageClickSupplier } = this.props;
 
     // const status = ['关闭', '运行中', '已上线', '异常'];
+    // const clickMe = id => () => {
+    //   console.log('click me ', id);
+    // };
 
     const columns = [
       {
         title: 'ID',
         dataIndex: 'merchantId',
+        render: (value) => {
+          return <span onClick={subPageClickSupplier(value)}>{value}</span>;
+        },
       },
       {
         title: '登录名',

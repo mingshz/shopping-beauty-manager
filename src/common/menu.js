@@ -8,12 +8,19 @@ const menuData = [{
   path: 'users',
   authority: 'user',
   children: [{
+    name: '管理员',
+    path: 'manager',
+  }, {
     name: '用户',
     path: 'login',
   }, {
     name: '商户',
     path: 'merchant',
-  // }, {
+  }, {
+    name: '商户',
+    path: ':managerId',
+    hideInMenu: true,
+  }, {
   //   name: '注册结果',
   //   path: 'register-result',
   }],

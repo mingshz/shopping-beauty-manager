@@ -1,5 +1,6 @@
 
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import React, { PureComponent } from 'react';
 import { Form, Row, Col, Input } from 'antd';
 import AbstractTablePage from './util/AbstractTablePage';
@@ -147,6 +148,9 @@ export default class MerchangeList extends PureComponent {
       },
     });
   }
+  subPageClickSupplier = id => () => {
+    this.props.dispatch(routerRedux.push(`/users/${id}`));
+  }
   /**
    * 显示在表单中 可以被点击然后弹出选择框的内容
    */
@@ -224,6 +228,7 @@ export default class MerchangeList extends PureComponent {
           renderFormComponent={this.searchForm}
           propsTable={{
             changeEnabledSupplier: this.changeEnabledSupplier,
+            subPageClickSupplier: this.subPageClickSupplier,
           }}
           creationTitle="新增商户"
           creationRender={this.onCreateRender}
