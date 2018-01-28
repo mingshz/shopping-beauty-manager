@@ -7,6 +7,7 @@ import { getRouterData } from './common/router';
 // import IndexPage from './routes/IndexPage';
 import styles from './index.less';
 import Authorized from './utils/Authorized';
+import { CURRENT } from './components/Authorized';
 
 // 权限应该保存在本地，确保刷新之后还可以使用；但是系统内部应该存在刷新机制；在发现权限丢失之后会删除权限信息，并且重新打开应用程序
 // 既然是本地信息，那么pro版本的权限应该是直接可用的
@@ -32,7 +33,7 @@ function RouterConfig({ history, app }) {
           <AuthorizedRoute
             path="/"
             render={props => <BasicLayout {...props} />}
-            authority={['user']}
+            authority={() => CURRENT !== 'guest'}
             redirectPath="/login/login"
           />
         </Switch>

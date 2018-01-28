@@ -1,0 +1,4 @@
+PUT http://localhost:8000/item/1/auditStatus HTTP/1.1
+Content-Type: application/json
+
+"AUDIT_PAS2S"

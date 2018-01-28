@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { Alert, Table, Switch } from 'antd';
 import styles from './index.less';
 import Authorized from '../Authorized/Authorized';
+import { AuthorityRoot } from '../../services/manager';
 
 export default class LoginTable extends PureComponent {
   state = {
@@ -104,7 +105,7 @@ export default class LoginTable extends PureComponent {
           const oc = updateLoginManageableSupplier(data.id);
           return (
             <Authorized
-              authority="ROLE_ROOT"
+              authority={AuthorityRoot}
               noMatch={(
                 <Switch checked={value} disable={false} />
               )}

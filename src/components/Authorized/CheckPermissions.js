@@ -2,6 +2,7 @@ import React from 'react';
 import intersection from 'array-intersection';
 import PromiseRender from './PromiseRender';
 import { CURRENT } from './index';
+import { AuthorityRoot } from '../../services/manager';
 /**
  * 通用权限检查方法
  * Common check permissions method
@@ -16,15 +17,22 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
   if (!authority) {
     return target;
   }
-  // root 无所畏惧，除了要求是匿名
-  if (authority.constructor.name !== 'String' || authority !== 'guest') {
-    if (currentAuthority && currentAuthority.constructor.name === 'String' && currentAuthority === 'ROLE_ROOT') {
-      return target;
-    }
-    if (currentAuthority && currentAuthority.constructor.name === 'Array' && currentAuthority.includes('ROLE_ROOT')) {
-      return target;
-    }
+  // root可以通过本地设置伪装成为其他角色
+  if (currentAuthority === AuthorityRoot && localStorage.getItem('FA')) {
+    // eslint-disable-next-line
+    currentAuthority = localStorage.getItem('FA');
   }
+  // root 无所畏惧，除了要求是匿名
+  // if (authority.constructor.name !== 'String' || authority !== 'guest') {
+  //   if (currentAuthority && currentAuthority.constructor.name === 'String'
+  //   && currentAuthority === AuthorityRoot) {
+  //     return target;
+  //   }
+  //   if (currentAuthority && currentAuthority.constructor.name === 'Array'
+  //   && currentAuthority.includes(AuthorityRoot)) {
+  //     return target;
+  //   }
+  // }
   // 数组处理
   if (authority.constructor.name === 'Array') {
     if (currentAuthority.constructor.name === 'String' && authority.includes(currentAuthority)) {

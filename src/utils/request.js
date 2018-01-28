@@ -4,6 +4,18 @@ function parseJSON(response) {
   return response.json();
 }
 
+/**
+ * @param {ServerResponse} response 响应
+ * @returns {boolean} 只要是2xx的响应那就是true
+ */
+export function trueOnSuccessful(response) {
+  if (!response.ok) {
+    // console.warn(response);
+    throw new Error(response.text());
+  }
+  return response.ok;
+}
+
 // function checkStatus(response) {
 //   if (response.status >= 200 && response.status < 300) {
 //     return response;

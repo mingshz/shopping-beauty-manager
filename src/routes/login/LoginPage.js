@@ -3,7 +3,7 @@ import { Spin } from 'antd';
 import { connect } from 'dva';
 import QRCode from 'qrcode.react';
 import styles from './LoginPage.less';
-import { setLocalAuthority } from '../utils/authorityStorage';
+import { setLocalAuthority } from '../../utils/authorityStorage';
 
 @connect(state =>
   ({

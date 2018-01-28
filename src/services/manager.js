@@ -47,16 +47,36 @@ export async function loginResult(id) {
   });
 }
 
-const authorityTable = {
-  ROLE_ROOT: '全权限',
-  ROLE_AUDIT_ITEM: '项目审核',
-  ROLE_MANAGE_ITEM: '平台未知',
-  ROLE_MERCHANT_ROOT: '商户所有者',
-  ROLE_MERCHANT_OPERATOR: '商户操作者',
-  ROLE_STORE_ROOT: '门店所有者',
-  ROLE_STORE_OPERATOR: '门店操作者',
-  ROLE_REPRESENT: '未知',
-};
+const authorityTable = {};
+
+// ROLE_MANAGE_ITEM
+/**
+ * 全权限用户
+ */
+export const AuthorityRoot = 'ROLE_ROOT';
+authorityTable[AuthorityRoot] = '全权限';
+export const AuthorityPlatformItemAudit = 'ROLE_AUDIT_ITEM';
+authorityTable[AuthorityPlatformItemAudit] = '项目审核';
+export const AuthorityPlantformMerchantManage = 'ROLE_MANAGE_MERCHANT';
+authorityTable[AuthorityPlantformMerchantManage] = '商户管理';
+export const AuthorityMerchantOwner = 'ROLE_MERCHANT_ROOT';
+authorityTable[AuthorityMerchantOwner] = '商户所有者';
+// 比如门店专员, 项目专员，结算专员（可能是同一个人）
+export const AuthorityMerchantItem = 'ROLE_MERCHANT_ITEM';
+authorityTable[AuthorityMerchantItem] = '商户项目专员';
+export const AuthorityMerchantStore = 'ROLE_MERCHANT_STORE';
+authorityTable[AuthorityMerchantStore] = '商户门店专员';
+
+// const authorityTable = {
+//   AuthorityRoot: '全权限',
+//   AuthorityPlatformItemAudit: '项目审核',
+//   ROLE_MANAGE_ITEM: '平台未知',
+//   ROLE_MERCHANT_ROOT: '商户所有者',
+//   ROLE_MERCHANT_OPERATOR: '商户操作者',
+//   ROLE_STORE_ROOT: '门店所有者',
+//   ROLE_STORE_OPERATOR: '门店操作者',
+//   ROLE_REPRESENT: '门店代表',
+// };
 /**
  * 将权限变成人类可读
  * @param {String} 原始权限

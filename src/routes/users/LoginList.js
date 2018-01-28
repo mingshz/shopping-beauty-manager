@@ -4,9 +4,9 @@ import moment from 'moment';
 import { connect } from 'dva';
 // eslint-disable-next-line
 import { List, Card, Form, Row, Col, Radio, Input, Progress, Button, Icon, Dropdown, Menu, Avatar } from 'antd';
-import LoginTable from '../components/LoginTable';
+import LoginTable from '../..//components/LoginTable';
 import styles from './LoginList.less';
-import PageHeaderLayout from '../layouts/PageHeaderLayout';
+import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 const FormItem = Form.Item;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');

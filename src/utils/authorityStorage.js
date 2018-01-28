@@ -19,3 +19,20 @@ export function setLocalAuthority(authority) {
   return localStorage.setItem('antd-pro-authority', authority);
 }
 
+/**
+ * @returns {String} 最后登录的商户号或者null
+ */
+export function getLocalMerchantId() {
+  return localStorage.getItem('lastMerchantId');
+}
+
+/**
+ * 保存最后登录的商户号
+ * @param {String} id 商户号
+ */
+export function setLocalMerchantId(id) {
+  if (!id) {
+    localStorage.removeItem('lastMerchantId');
+  }
+  localStorage.setItem('lastMerchantId', id);
+}

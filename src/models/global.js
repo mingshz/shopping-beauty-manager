@@ -1,6 +1,6 @@
 import equals from 'equals';
 import { getCurrent, loginRequest, loginResult, logout } from '../services/manager';
-import { setLocalAuthority, getLocalAuthority } from '../utils/authorityStorage';
+import { setLocalAuthority, getLocalAuthority, setLocalMerchantId } from '../utils/authorityStorage';
 
 /**
  * @param {String | Array<String>} a 权限1
@@ -22,6 +22,7 @@ function equalsAuthorities(a, b) {
 }
 
 function loginAs(put, current) {
+  console.log('loginAs: ', current);
   return put({
     type: 'changeCurrentUser',
     payload: {
@@ -120,6 +121,7 @@ export default {
     changeCurrentUser(state, action) {
       if (!action.payload) {
         setLocalAuthority(null);
+        setLocalMerchantId(null);
         window.location.reload();
         return {
           ...state,
@@ -132,6 +134,7 @@ export default {
           setLocalAuthority(action.payload.authorities);
           window.location.reload();
         }
+        setLocalMerchantId(action.payload.merchantId);
         return {
           ...state,
           currentUser: action.payload,

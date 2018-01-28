@@ -2,8 +2,8 @@
 import { connect } from 'dva';
 import React, { PureComponent } from 'react';
 import { Form, Row, Col, Input } from 'antd';
-import AbstractTablePage from './util/AbstractTablePage';
-import ManagerTable from '../components/ManagerTable';
+import AbstractTablePage from '../util/AbstractTablePage';
+import ManagerTable from '../../components/ManagerTable';
 
 // eslint-disable-next-line
 const FormItem = Form.Item;
@@ -11,7 +11,7 @@ const FormItem = Form.Item;
 @connect(state => ({
   data: state.manager,
 }))
-export default class ManagerList extends PureComponent {
+export default class StoreList extends PureComponent {
     fetchData = (params) => {
       const { dispatch } = this.props;
       dispatch({

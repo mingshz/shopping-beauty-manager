@@ -1,3 +1,15 @@
+import { AuthorityRoot, AuthorityPlantformMerchantManage, AuthorityMerchantOwner, AuthorityMerchantItem, AuthorityMerchantStore, AuthorityPlatformItemAudit } from '../services/manager';
+import { getLocalMerchantId } from '../utils/authorityStorage';
+
+/**
+ * 若是登录了关联商户的角色，则可以直接路由至特定商户的路由
+ */
+function toMerchantId() {
+  const merchantId = getLocalMerchantId();
+  if (!merchantId) { return ':merchantId'; }
+  return merchantId;
+}
+
 const menuData = [{
   name: '首页',
   icon: 'welcome',
@@ -6,7 +18,7 @@ const menuData = [{
   name: '用户管理',
   icon: 'user',
   path: 'users',
-  authority: 'user',
+  authority: [AuthorityRoot, AuthorityPlantformMerchantManage],
   children: [{
     name: '管理员',
     path: 'manager',
@@ -16,13 +28,31 @@ const menuData = [{
   }, {
     name: '商户',
     path: 'merchant',
+  }],
+}, {
+  name: '业务管理',
+  icon: 'schedule',
+  path: 'business',
+  authority: [AuthorityRoot, AuthorityPlatformItemAudit],
+  children: [{
+    name: '项目审核',
+    path: 'itemAudit',
+    authority: [AuthorityRoot, AuthorityPlatformItemAudit],
+  }],
+}, {
+  name: '商户管理',
+  icon: 'solution',
+  path: `merchant/${toMerchantId()}`, // 在获取关联商户之后 改成商户号 则可以稳稳地静态渲染了
+  authority: [AuthorityMerchantOwner, AuthorityMerchantItem, AuthorityMerchantStore],
+  children: [{
+    name: '操作员',
+    path: 'manager',
   }, {
-    name: '商户',
-    path: ':managerId',
-    hideInMenu: true,
+    name: '门店',
+    path: 'store',
   }, {
-  //   name: '注册结果',
-  //   path: 'register-result',
+    name: '项目',
+    path: 'item',
   }],
 }, {
   name: '账户',

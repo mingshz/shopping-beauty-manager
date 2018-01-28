@@ -3,10 +3,10 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import React, { PureComponent } from 'react';
 import { Form, Row, Col, Input } from 'antd';
-import AbstractTablePage from './util/AbstractTablePage';
-import MerchantTable from '../components/MerchantTable';
-import { humanReadName } from '../services/login';
-import LoginSelector from '../components/LoginSelector';
+import AbstractTablePage from '../util/AbstractTablePage';
+import MerchantTable from '../../components/MerchantTable';
+import { humanReadName } from '../../services/login';
+import LoginSelector from '../../components/LoginSelector';
 
 // eslint-disable-next-line
 const FormItem = Form.Item;
@@ -149,7 +149,7 @@ export default class MerchangeList extends PureComponent {
     });
   }
   subPageClickSupplier = id => () => {
-    this.props.dispatch(routerRedux.push(`/users/${id}`));
+    this.props.dispatch(routerRedux.push(`/merchant/${id}/manager`));
   }
   /**
    * 显示在表单中 可以被点击然后弹出选择框的内容

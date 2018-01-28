@@ -2,6 +2,7 @@
 import React from 'react';
 import dynamic from 'dva/dynamic';
 import { getMenuData } from './menu';
+import { AuthorityRoot, AuthorityPlantformMerchantManage, AuthorityMerchantOwner, AuthorityMerchantStore, AuthorityMerchantItem, AuthorityPlatformItemAudit } from '../services/manager';
 
 // wrapper of dynamic
 const dynamicWrapper = (app, models, component) => dynamic({
@@ -48,26 +49,37 @@ export const getRouterData = (app) => {
     },
     '/index': {
       component: dynamicWrapper(app, ['example'], () => import('../routes/IndexPage')),
-      authority: 'user',
-      redirectPath: '/login/login',
     },
     '/login/login': {
-      component: dynamicWrapper(app, ['global'], () => import('../routes/LoginPage')),
+      component: dynamicWrapper(app, ['global'], () => import('../routes/login/LoginPage')),
       authority: 'guest',
     },
     '/users/login': {
-      component: dynamicWrapper(app, ['login', 'manager'], () => import('../routes/LoginList')),
+      component: dynamicWrapper(app, ['login', 'manager'], () => import('../routes/users/LoginList')),
     },
     '/users/manager': {
-      component: dynamicWrapper(app, ['login', 'manager'], () => import('../routes/ManagerList')),
-      authority: 'ROLE_ROOT',
+      component: dynamicWrapper(app, ['login', 'manager'], () => import('../routes/users/ManagerList')),
+      authority: AuthorityRoot,
     },
     '/users/merchant': {
-      component: dynamicWrapper(app, ['merchant', 'login'], () => import('../routes/MerchantList')),
-      authority: 'ROLE_ROOT',
+      component: dynamicWrapper(app, ['merchant', 'login'], () => import('../routes/users/MerchantList')),
+      authority: [AuthorityRoot, AuthorityPlantformMerchantManage],
     },
-    '/users/:managerId': {
-      component: dynamicWrapper(app, ['merchant', 'login'], () => import('../routes/MerchantManagerList')),
+    '/merchant/:merchantId/manager': {
+      component: dynamicWrapper(app, ['merchant', 'login'], () => import('../routes/merchant/ManagerList')),
+      authority: [AuthorityRoot, AuthorityMerchantOwner],
+    },
+    '/merchant/:merchantId/store': {
+      component: dynamicWrapper(app, ['merchant', 'login'], () => import('../routes/merchant/StoreList')),
+      authority: [AuthorityMerchantOwner, AuthorityMerchantStore],
+    },
+    '/merchant/:merchantId/item': {
+      component: dynamicWrapper(app, ['merchant', 'login'], () => import('../routes/merchant/ItemList')),
+      authority: [AuthorityMerchantOwner, AuthorityMerchantItem],
+    },
+    '/business/itemAudit': {
+      component: dynamicWrapper(app, ['merchant', 'login'], () => import('../routes/business/ItemAuditList')),
+      authority: [AuthorityRoot, AuthorityPlatformItemAudit],
     },
     // '/util/loginSelector': {
     //   component: dynamicWrapper(app, ['login'], () => import('../components/LoginSelector')),
@@ -75,6 +87,9 @@ export const getRouterData = (app) => {
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
     // },
+    '/exception/403': {
+      component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),
+    },
   };
     // Get name from ./menu.js or just set it in the router data.
   const menuData = getFlatMenuData(getMenuData());
