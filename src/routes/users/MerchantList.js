@@ -15,9 +15,9 @@ const FormItem = Form.Item;
   data: state.merchant,
 }))
 export default class MerchangeList extends PureComponent {
-    state = {
-      openLoginSelector: false,
-    }
+  state = {
+    openLoginSelector: false,
+  }
   /**
    * 新增用户的表单内容
    */
@@ -50,7 +50,7 @@ export default class MerchangeList extends PureComponent {
                 initialValue: creation.id,
               })(
                 <Input type="hidden" />
-              )}
+                )}
               <span onClick={this.forLogin}>{this.newLoginName()}</span>
             </FormItem>
           </Col>
@@ -70,7 +70,7 @@ export default class MerchangeList extends PureComponent {
                   }],
               })(
                 <Input placeholder="请输入商户名称" />
-              )}
+                )}
             </FormItem>
           </Col>
         </Row>
@@ -89,7 +89,7 @@ export default class MerchangeList extends PureComponent {
                   }],
               })(
                 <Input placeholder="请输入联系人" />
-              )}
+                )}
             </FormItem>
           </Col>
         </Row>
@@ -108,7 +108,7 @@ export default class MerchangeList extends PureComponent {
                   }],
               })(
                 <Input placeholder="请输入联系方式" />
-              )}
+                )}
             </FormItem>
           </Col>
         </Row>
@@ -127,7 +127,7 @@ export default class MerchangeList extends PureComponent {
                   }],
               })(
                 <Input placeholder="请输入商户地址" />
-              )}
+                )}
             </FormItem>
           </Col>
         </Row>
@@ -173,7 +173,7 @@ export default class MerchangeList extends PureComponent {
       openLoginSelector: false,
     });
   }
-  forLogin= () => {
+  forLogin = () => {
     this.setState({
       openLoginSelector: true,
     });
@@ -201,54 +201,54 @@ export default class MerchangeList extends PureComponent {
   }
 
 
-    searchForm = (getFieldDecorator, buttons) => {
-      return (
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <Form.Item label="关键字">
-              {getFieldDecorator('username')(
-                <Input placeholder="请输入" />
+  searchForm = (getFieldDecorator, buttons) => {
+    return (
+      <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+        <Col md={8} sm={24}>
+          <Form.Item label="关键字">
+            {getFieldDecorator('username')(
+              <Input placeholder="请输入" />
             )}
-            </Form.Item>
-          </Col>
-          <Col md={8} sm={24}>
-            {buttons()}
-          </Col>
-        </Row>);
-    }
+          </Form.Item>
+        </Col>
+        <Col md={8} sm={24}>
+          {buttons()}
+        </Col>
+      </Row>);
+  }
 
-    render() {
-      const { data: { loading, data, changing } } = this.props;
-      return (
-        <AbstractTablePage
-          fetchData={this.fetchData}
-          data={data}
-          loading={loading}
-          table={MerchantTable}
-          renderFormComponent={this.searchForm}
-          propsTable={{
-            changeEnabledSupplier: this.changeEnabledSupplier,
-            subPageClickSupplier: this.subPageClickSupplier,
-          }}
-          creationTitle="新增商户"
-          creationRender={this.onCreateRender}
-          creationAction={this.doAdd}
-          creationProps={{
-            confirmLoading: changing,
-          }}
-          // 此处情况比较复杂，我们意图将这些值绑定在model中
-          // creationProps={{
-          //   data: creation,
-          // }}
-          // creationFormOptions={{
-          //   mapPropsToFields: (props) => {
-          //     console.log('creationFormOptions', props);
-          //     return {
-          //       loginId: Form.createFormField(props.data.id),
-          //     };
-          //   },
-          // }}
-        />
-      );
-    }
+  render() {
+    const { data: { loading, data, changing } } = this.props;
+    return (
+      <AbstractTablePage
+        fetchData={this.fetchData}
+        data={data}
+        loading={loading}
+        table={MerchantTable}
+        renderFormComponent={this.searchForm}
+        propsTable={{
+          changeEnabledSupplier: this.changeEnabledSupplier,
+          subPageClickSupplier: this.subPageClickSupplier,
+        }}
+        creationTitle="新增商户"
+        creationRender={this.onCreateRender}
+        creationAction={this.doAdd}
+        creationProps={{
+          confirmLoading: changing,
+        }}
+      // 此处情况比较复杂，我们意图将这些值绑定在model中
+      // creationProps={{
+      //   data: creation,
+      // }}
+      // creationFormOptions={{
+      //   mapPropsToFields: (props) => {
+      //     console.log('creationFormOptions', props);
+      //     return {
+      //       loginId: Form.createFormField(props.data.id),
+      //     };
+      //   },
+      // }}
+      />
+    );
+  }
 }
