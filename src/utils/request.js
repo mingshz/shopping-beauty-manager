@@ -85,6 +85,13 @@ export function postJson(url, data, options) {
   return uploadJsonContent(url, 'POST', data, options);
 }
 
+export function deleteRequest(url, options) {
+  return request(url, {
+    ...options,
+    method: 'DELETE',
+  });
+}
+
 // * @param  {Function | Array<Function>} thenChain 工作链，响应会接受工作链
 //  * @param  {Function | Array<Function>} catchChain 异常链，响应会接受异常链
 

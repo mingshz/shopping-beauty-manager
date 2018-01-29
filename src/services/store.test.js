@@ -1,9 +1,9 @@
-import { getStore, newStore, updateStoreEnabled } from './store';
+import { getStore, newStore, updateStoreEnabled, getStoreRepresent, newStoreRepresent, deleteStoreRepresent, updateStoreRepresent } from './store';
 
-describe('项目测试', () => {
-  it('获取待审核项目', () => {
+describe('门店测试', () => {
+  it('获取门店', () => {
     return getStore().then((result) => {
-      console.log(result);
+      expect(result.data.length).toBeGreaterThanOrEqual(10);
     });
   });
   it('新增一个门店', () => {
@@ -23,5 +23,25 @@ describe('项目测试', () => {
       .then((rs) => {
         expect(rs).toBe(true);
       });
+  });
+  it('获取门店代表', () => {
+    return getStoreRepresent(3388).then((result) => {
+      expect(result.data.length).toBeGreaterThanOrEqual(10);
+    });
+  });
+  it('新增门店代表', () => {
+    return newStoreRepresent(3388, 1000).then(
+      rs => expect(rs).toBeTruthy()
+    );
+  });
+  it('更新门店代表', () => {
+    return updateStoreRepresent(3388, 1000, false).then(
+      rs => expect(rs).toBeTruthy()
+    );
+  });
+  it('删除门店代表', () => {
+    return deleteStoreRepresent(3388, 1000).then(
+      rs => expect(rs).toBeTruthy()
+    );
   });
 });

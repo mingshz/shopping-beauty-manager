@@ -1,5 +1,5 @@
 import { stringify } from 'qs';
-import { requestJson, postJson, trueOnSuccessful, putJson } from '../utils/request';
+import { requestJson, postJson, trueOnSuccessful, putJson, deleteRequest } from '../utils/request';
 
 /**
  * username 门店角色登录名（手机号）
@@ -33,3 +33,40 @@ export async function updateStoreEnabled(store, target) {
 //   return requestJson(`/store/{storeId}/represent`);
 // }
 // 还有添加门店代表和 启用/禁用 代表
+
+/**
+ * 获取特定门店的门店代表
+ * @param {String} store 门店id
+ */
+export async function getStoreRepresent(store) {
+  return requestJson(`/store/${store}/represent`);
+}
+
+/**
+ * 新增一个门店代表
+ * @param {String} store 门店id
+ * @param {String} login 身份id
+ */
+export async function newStoreRepresent(store, login) {
+  return postJson(`/store/${store}/represent/${login}`)
+    .then(trueOnSuccessful);
+}
+
+/**
+ * 切换激活状态
+ * @param {String} store 门店id
+ * @param {String} id 代表id
+ * @param {boolean} target 状态
+ */
+export async function updateStoreRepresent(store, id, target) {
+  return putJson(`/store/${store}/represent/${id}/enabled`, target)
+    .then(trueOnSuccessful);
+}
+/**
+ * 删除一个门店代表
+ * @param {String} store 门店id
+ * @param {String} id 代表id
+ */
+export async function deleteStoreRepresent(store, id) {
+  return deleteRequest(`/store/${store}/represent/${id}`);
+}
