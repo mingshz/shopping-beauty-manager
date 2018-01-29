@@ -23,8 +23,12 @@ export async function getAllItem(params) {
   return requestJson(`/item?${stringify(params)}`);
 }
 
-function auditItem(id, target) {
-  return putJson(`/item/${id}/auditStatus`, target)
+function auditItem(id, target, comment) {
+  return putJson(`/item/${id}/auditStatus`, target, {
+    headers: {
+      comment,
+    },
+  })
     .then(trueOnSuccessful);
 }
 
@@ -43,12 +47,12 @@ export async function newItem(params) {
   }).then(trueOnSuccessful);
 }
 
-export async function passItem(id) {
-  return auditItem(id, 'AUDIT_PASS');
+export async function passItem(id, comment) {
+  return auditItem(id, 'AUDIT_PASS', comment);
 }
 
-export async function refuseItem(id) {
-  return auditItem(id, 'AUDIT_FAILED');
+export async function refuseItem(id, comment) {
+  return auditItem(id, 'AUDIT_FAILED', comment);
 }
 
 
