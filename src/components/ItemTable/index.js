@@ -1,8 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Alert, Table, Switch } from 'antd';
+import { Alert, Table, Switch, Avatar } from 'antd';
 import styles from './index.less';
 
-export default class StoreTable extends PureComponent {
+/**
+ * 为了2者都可用
+ * 引入tableRowSelectionProps
+ */
+export default class ItemTable extends PureComponent {
   state = {
     selectedRowKeys: [],
   };
@@ -36,38 +40,45 @@ export default class StoreTable extends PureComponent {
   render() {
     const { selectedRowKeys } = this.state;
     const { data: { list, pagination, changingEnableId }, loading, doDelete
-      , changeEnabledSupplier, subPageClickSupplier } = this.props;
+      , changeEnabledSupplier, subPageClickSupplier, tableRowSelectionProps
+      , simpleMode, storeMode } = this.props;
 
+    // colSpan
     const columns = [
       {
         title: 'ID',
         dataIndex: 'id',
         render: (value) => {
-          if (!subPageClickSupplier) {
-            return value;
-          }
+          if (!subPageClickSupplier) { return value; }
           return <span onClick={subPageClickSupplier(value)}>{value}</span>;
         },
       },
       {
-        title: '登录名',
-        dataIndex: 'username',
+        title: '图片',
+        dataIndex: 'thumbnailUrl',
+        render: (value) => {
+          return <Avatar size="small" src={value} />;
+        },
       },
       {
         title: '名称',
         dataIndex: 'name',
       },
       {
-        title: '联系人',
-        dataIndex: 'contact',
+        title: '类型',
+        dataIndex: 'itemType',
       },
       {
-        title: '联系电话',
-        dataIndex: 'telephone',
+        title: '商户',
+        dataIndex: 'merchantName',
       },
       {
-        title: '地址',
-        dataIndex: 'address',
+        title: '原价',
+        dataIndex: 'price',
+      },
+      {
+        title: '销售价',
+        dataIndex: 'salesPrice',
       },
       {
         title: '激活',
@@ -87,17 +98,48 @@ export default class StoreTable extends PureComponent {
         },
       },
       {
-        title: '创建时间',
-        dataIndex: 'createTime',
+        title: '推荐',
+        dataIndex: 'recommended',
+        render: (value) => {
+          return <Switch disabled checked={value} />;
+          // let onChange = null;
+          // if (changeEnabledSupplier) {
+          //   // 获取改变的方法
+          //   onChange = changeEnabledSupplier(obj.id);
+          // }
+          // return (
+          //   <Switch
+          //     onChange={onChange}
+          //     checked={value}
+          //     loading={changingEnableId === obj.id}
+          //   />);
+        },
       },
-    ];
+      {
+        title: '审核状态',
+        dataIndex: 'auditStatus',
+      },
+    ].filter(c => !simpleMode
+      || c.title === '图片'
+      || c.title === '名称'
+      || c.title === '类型'
+      || c.title === '原价'
+      || c.title === '销售价'
+    ).filter(c => !storeMode
+      || c.title === 'ID'
+      || c.title === '名称'
+      || c.title === '激活'
+      || c.title === '推荐'
+      || c.title === '原价'
+      || c.title === '销售价'
+    );
 
     if (doDelete) {
       columns.push({
         title: '操作',
         render: (_, record) => (
           <Fragment>
-            {doDelete ? (<a onClick={doDelete(record ? record.id : null)}>删除</a>) : null }
+            <a onClick={doDelete(record ? record.id : null)}>删除</a>
             {/* <Divider type="vertical" />
             <a href="">订阅警报</a> */}
           </Fragment>
@@ -117,6 +159,7 @@ export default class StoreTable extends PureComponent {
       getCheckboxProps: record => ({
         disabled: record.disabled,
       }),
+      ...tableRowSelectionProps,
     };
 
     return (

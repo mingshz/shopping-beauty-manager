@@ -121,7 +121,8 @@ export default class AbstractTablePage extends PureComponent {
     render() {
       const { selectedRows, modalVisible } = this.state;
       const { data, loading, table, propsLayout, propsTable, bottom, creationTitle, creationRender
-        , creationAction, creationPrepare, creationFormOptions, creationProps } = this.props;
+        , creationAction, creationPrepare, creationFormOptions, creationProps
+        , cardOnly, tableOnly, tableListOperator } = this.props;
       const myAction = (formData) => {
         return creationAction(formData, () => {
           this.handleModalVisible(false);
@@ -134,18 +135,33 @@ export default class AbstractTablePage extends PureComponent {
         LocalFormModal = Form.create(creationFormOptions || {})(FormModal);
       }
 
-      return (
-        <PageHeaderLayout {...propsLayout}>
-          <Card bordered={false}>
-            <div className={styles.standardList}>
-              <div className={styles.tableListForm}>
-                {this.renderForm()}
-              </div>
-              <div className={styles.tableListOperator}>
-                {creation ? (
-                  <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>新建
-                  </Button>) : null}
-                {/*
+      const tableResult = (
+        <Table
+          selectedRows={selectedRows}
+          loading={loading}
+          data={data}
+          onSelectRow={this.handleSelectRows}
+          onChange={this.handleStandardTableChange}
+                // doDelete={this.handleRemove}
+          {...propsTable}
+        />
+      );
+      if (tableOnly) {
+        return tableResult;
+      }
+
+      const cardResult = (
+        <Card bordered={false}>
+          <div className={styles.standardList}>
+            <div className={styles.tableListForm}>
+              {this.renderForm()}
+            </div>
+            <div className={styles.tableListOperator}>
+              {creation ? (
+                <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>新建
+                </Button>) : null}
+              {tableListOperator ? tableListOperator() : null}
+              {/*
 
               {
                 selectedRows.length > 0 && (
@@ -159,18 +175,15 @@ export default class AbstractTablePage extends PureComponent {
                   </span>
                 )
               } */}
-              </div>
-              <Table
-                selectedRows={selectedRows}
-                loading={loading}
-                data={data}
-                onSelectRow={this.handleSelectRows}
-                onChange={this.handleStandardTableChange}
-                // doDelete={this.handleRemove}
-                {...propsTable}
-              />
             </div>
-          </Card>
+            {tableResult}
+          </div>
+        </Card>
+      );
+
+      const allResult = (
+        <div>
+          {cardResult}
           {creation ? (
             <LocalFormModal
               {...creationProps}
@@ -183,6 +196,16 @@ export default class AbstractTablePage extends PureComponent {
             />
           ) : null }
           {bottom ? bottom() : null}
+        </div>
+      );
+
+      if (cardOnly) {
+        return allResult;
+      }
+
+      return (
+        <PageHeaderLayout {...propsLayout}>
+          {allResult}
         </PageHeaderLayout>
       );
     }

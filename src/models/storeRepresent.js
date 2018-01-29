@@ -1,8 +1,7 @@
-import { routerRedux } from 'dva/router';
-import { getStore, newStore, updateStoreEnabled } from '../services/store';
+import { getStoreRepresent, newStoreRepresent, updateStoreRepresent, deleteStoreRepresent } from '../services/store';
 
 export default {
-  namespace: 'store',
+  namespace: 'storeRepresent',
   state: {
     changing: false,
     loading: true,
@@ -18,43 +17,45 @@ export default {
      * 正在改变enable状态id
      */
     changingEnableId: null,
-    /**
-     * 当前的store
-     */
-    currentStore: null,
   },
   effects: {
     /**
-     * 选择了一个门店merchantId,id
+     * payload包含id,store
      */
-    *selectStore({ payload }, { put }) {
+    *deleteOne({ payload }, { call, put }) {
       yield put({
-        type: 'updateCurrentStore',
+        type: 'changeChanging',
         payload: payload.id,
       });
-      yield put(routerRedux.push(`/merchant/${payload.merchantId}/storeDetail/${payload.id}`));
-      // yield push(`/merchant/${payload.merchantId}/storeDetail/${payload.id}`);
+      yield call(deleteStoreRepresent, payload.store, payload.id);
+      yield put({
+        type: 'deleted',
+        payload: payload.id,
+      });
     },
     /**
-     * payload包含id,target
+     * payload包含id,target,store
      */
     *changeEnableTo({ payload }, { call, put }) {
       yield put({
         type: 'changingEnable',
         payload: payload.id,
       });
-      yield call(updateStoreEnabled, payload.id, payload.target);
+      yield call(updateStoreRepresent, payload.store, payload.id, payload.target);
       yield put({
         type: 'changedEnable',
         payload,
       });
     },
+    /**
+     * 需包含store,login都为id
+     */
     *add({ payload, callback }, { call, put }) {
       yield put({
         type: 'changeChanging',
         payload: true,
       });
-      yield call(newStore, payload);
+      yield call(newStoreRepresent, payload.store, payload.login);
       yield put({
         type: 'changeChanging',
         payload: false,
@@ -70,13 +71,16 @@ export default {
         },
       });
     },
+    /**
+     * payload:必须包含store
+     */
     *fetch({ payload }, { call, put }) {
       yield put({
         type: 'changeLoading',
         payload: true,
       });
       // 是否需要重新组织payload?
-      const result = yield call(getStore, payload);
+      const result = yield call(getStoreRepresent, payload);
       result.list = result.list || result.data;
       yield put({
         type: 'save',
@@ -89,11 +93,15 @@ export default {
     },
   },
   reducers: {
-    updateCurrentStore(state, action) {
+    deleted(state, action) {
       return {
         ...state,
-        // 选择一个正确的！
-        currentStore: state.data.list.filter(l => l.id === action.payload)[0],
+        // 调整 data.list 中符合条件的值
+        data: {
+          ...state.data,
+          list: state.data.list.filter(l => l.id !== action.payload),
+        },
+        changing: false,
       };
     },
     changedEnable(state, action) {

@@ -1,10 +1,9 @@
 
 import { connect } from 'dva';
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Input, Modal } from 'antd';
+import { Form, Row, Col, Input } from 'antd';
 import AbstractTablePage from '../util/AbstractTablePage';
 import StoreTable from '../../components/StoreTable';
-import RepresentTable from '../../components/RepresentTable';
 import { humanReadName } from '../../services/login';
 import LoginSelector from '../../components/LoginSelector';
 
@@ -17,11 +16,6 @@ const FormItem = Form.Item;
 export default class StoreList extends PureComponent {
   state = {
     openLoginSelector: false,
-    /**
-     * 是否展示rp
-     */
-    openRPList: false,
-    selectedPRRows: [],
   }
   /**
    * 新增用户的表单内容
@@ -210,16 +204,6 @@ export default class StoreList extends PureComponent {
       },
     });
   }
-  revokeManagerSupplier = id => () => {
-    this.props.dispatch({
-      type: 'manager/updateManageable',
-      payload: {
-        id,
-        target: false,
-      },
-      callback: this.fetchData,
-    });
-  }
   searchForm = (getFieldDecorator, buttons) => {
     return (
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -236,122 +220,17 @@ export default class StoreList extends PureComponent {
       </Row>);
   }
 
-  handleSelectPRRows = (rows) => {
-    this.setState({
-      selectedPRRows: rows,
-    });
-  }
-
-  forLoginOkPR = (login) => {
-    const { currentStore } = this.state;
-
-    this.props.dispatch({
-      type: 'store/addRepresent',
-      payload: {
-        store: currentStore,
-        login: login.id,
-      },
-      callback: this.forLoginClosePR,
-    });
-    // this.forLoginClosePR();
-  }
-  forLoginClosePR = () => {
-    this.setState({
-      openLoginSelectorPR: false,
-    });
-  }
-  forLoginPR = id => () => {
-    this.setState({
-      openLoginSelectorPR: true,
-      currentStore: id,
-    });
-  }
-
-  /**
-   * 构造Model with 代表
-   */
-  bottom = () => {
-    const { openRPList, selectedPRRows, openLoginSelectorPR } = this.state;
-    const { data: { represent, changingRepresentId, loading } } = this.props;
-
-    const LocalLoginSelector = connect((state) => {
-      return {
-        list: state.login.select,
-      };
-    })(LoginSelector);
-
-    return (
-      <div>
-        <Modal
-          visible={openRPList}
-          title="代表名单"
-          onCancel={this.hideRPList}
-          onOk={this.hideRPList}
-        >
-          <RepresentTable
-            selectedRows={selectedPRRows}
-            onSelectRow={this.handleSelectPRRows}
-            changingEnableId={changingRepresentId}
-            changeEnabledSupplier={this.changeRPEnabledSupplier}
-            doDelete={this.deleteRPSupplier}
-            loading={loading}
-            data={represent}
-          />
-        </Modal>
-        <LocalLoginSelector
-          visible={openLoginSelectorPR}
-          onClose={this.forLoginClosePR}
-          onOk={this.forLoginOkPR}
-        />
-      </div>
-    );
-  }
-  deleteRPSupplier = id => () => {
-    const { currentStore } = this.state;
-    this.props.dispatch({
-      type: 'store/deleteRepresent',
-      payload: {
-        store: currentStore,
-        id,
-      },
-    });
-  }
-  /**
-   * 改变代表是否可用的生成器
-   */
-  changeRPEnabledSupplier = id => (value) => {
-    const { currentStore } = this.state;
-    this.props.dispatch({
-      type: 'store/changeRepresentEnableTo',
-      payload: {
-        store: currentStore,
-        id,
-        target: value,
-      },
-    });
-  }
-
-  hideRPList = () => {
-    this.setState({
-      openRPList: false,
-    });
-  }
-
   /**
    * 点击id的时候，我们就展示rp队列吧
    */
   subPageClickSupplier= id => () => {
-    // 先获取
+    // 改成展示 详情页
+    // 下面是显示rp队
     this.props.dispatch({
-      type: 'store/fetchRepresent',
+      type: 'store/selectStore',
       payload: {
-        store: id,
-      },
-      callback: () => {
-        this.setState({
-          openRPList: true,
-          currentStore: id,
-        });
+        merchantId: this.myMerchantId(),
+        id,
       },
     });
   }
@@ -370,7 +249,6 @@ export default class StoreList extends PureComponent {
             subPageClickSupplier: this.subPageClickSupplier,
             changeEnabledSupplier: this.changeEnabledSupplier,
             changingEnableId,
-            newRPSupplier: this.forLoginPR,
           }
         }
         creationTitle="新增门店"
