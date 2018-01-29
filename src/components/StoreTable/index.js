@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { Alert, Table, Switch } from 'antd';
 import styles from './index.less';
 
-export default class MerchantTable extends PureComponent {
+export default class StoreTable extends PureComponent {
   state = {
     selectedRowKeys: [],
   };
@@ -46,8 +46,11 @@ export default class MerchantTable extends PureComponent {
     const columns = [
       {
         title: 'ID',
-        dataIndex: 'id',
+        dataIndex: 'storeId',
         render: (value) => {
+          if (!subPageClickSupplier) {
+            return value;
+          }
           return <span onClick={subPageClickSupplier(value)}>{value}</span>;
         },
       },
@@ -78,13 +81,14 @@ export default class MerchantTable extends PureComponent {
           let onChange = null;
           if (changeEnabledSupplier) {
             // 获取改变的方法
-            onChange = changeEnabledSupplier(obj.id);
+            onChange = changeEnabledSupplier(obj.storeId);
           }
+          console.log('id 分别为: ', changingEnableId, ' 和:', obj.storeId);
           return (
             <Switch
               onChange={onChange}
               checked={value}
-              loading={changingEnableId === obj.id}
+              loading={changingEnableId === obj.storeId}
             />);
         },
       },
@@ -138,7 +142,7 @@ export default class MerchantTable extends PureComponent {
         </div>
         <Table
           loading={loading}
-          rowKey="id"
+          rowKey="storeId"
           // rowKey={record => record.key}
           rowSelection={rowSelection}
           dataSource={list}

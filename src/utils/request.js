@@ -11,7 +11,7 @@ function parseJSON(response) {
 export function trueOnSuccessful(response) {
   if (!response.ok) {
     // console.warn(response);
-    throw new Error(response.text());
+    throw new Error('bad response status: ', response.status);
   }
   return response.ok;
 }
@@ -104,6 +104,7 @@ export default function request(url, options) {
   }
   const defaultOptions = {
     credentials: 'include',
+    cache: 'no-cache',
   };
   const newOptions = { ...defaultOptions, ...options };
   return fetch(targetUrl, newOptions);

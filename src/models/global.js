@@ -22,7 +22,7 @@ function equalsAuthorities(a, b) {
 }
 
 function loginAs(put, current) {
-  console.log('loginAs: ', current);
+  // console.log('loginAs: ', current);
   return put({
     type: 'changeCurrentUser',
     payload: {

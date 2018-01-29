@@ -19,7 +19,7 @@ describe('项目测试', () => {
     });
   });
   it('更变状态', () => {
-    return updateStoreEnabled(111, true)
+    return updateStoreEnabled(111, false)
       .then((rs) => {
         expect(rs).toBe(true);
       });

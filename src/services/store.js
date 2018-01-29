@@ -26,9 +26,7 @@ export async function newStore(params) {
  * @param {boolean} target 是否要激活
  */
 export async function updateStoreEnabled(store, target) {
-  return putJson(`/store/${store}/enabled`, {
-    enable: target,
-  }).then(trueOnSuccessful);
+  return putJson(`/store/${store}/enabled`, target).then(trueOnSuccessful);
 }
 
 // export async function getStore(params) {

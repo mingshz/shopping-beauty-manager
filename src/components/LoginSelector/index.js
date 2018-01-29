@@ -36,11 +36,11 @@ export default class LoginSelector extends PureComponent {
     });
   }
   handleSelect = (value) => {
-    console.log('before select');
+    // console.log('before select');
     this.setState({
       selectId: value,
     });
-    console.log('after select');
+    // console.log('after select');
   }
   handleOk = () => {
     // 如果压根没有选，那么就当做cancel
