@@ -1,9 +1,10 @@
 
 import { connect } from 'dva';
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Input } from 'antd';
+import { Form, Row, Col, Input, Modal } from 'antd';
 import AbstractTablePage from '../util/AbstractTablePage';
 import StoreTable from '../../components/StoreTable';
+import RepresentTable from '../../components/RepresentTable';
 import { humanReadName } from '../../services/login';
 import LoginSelector from '../../components/LoginSelector';
 
@@ -16,6 +17,11 @@ const FormItem = Form.Item;
 export default class StoreList extends PureComponent {
   state = {
     openLoginSelector: false,
+    /**
+     * 是否展示rp
+     */
+    openRPList: false,
+    selectedPRRows: [],
   }
   /**
    * 新增用户的表单内容
@@ -230,6 +236,87 @@ export default class StoreList extends PureComponent {
       </Row>);
   }
 
+  handleSelectPRRows = (rows) => {
+    this.setState({
+      selectedPRRows: rows,
+    });
+  }
+
+  /**
+   * 构造Model with 代表
+   */
+  bottom = () => {
+    const { openRPList, selectedPRRows } = this.state;
+    const { data: { represent, changingRepresentId, loading } } = this.props;
+    return (
+      <Modal
+        visible={openRPList}
+        title="代表名单"
+        onCancel={this.hideRPList}
+        onOk={this.hideRPList}
+      >
+        <RepresentTable
+          selectedRows={selectedPRRows}
+          onSelectRow={this.handleSelectPRRows}
+          changingEnableId={changingRepresentId}
+          changeEnabledSupplier={this.changeRPEnabledSupplier}
+          doDelete={this.deleteRPSupplier}
+          loading={loading}
+          data={represent}
+        />
+      </Modal>
+    );
+  }
+  deleteRPSupplier = id => () => {
+    const { currentStore } = this.state;
+    this.props.dispatch({
+      type: 'store/deleteRepresent',
+      payload: {
+        store: currentStore,
+        id,
+      },
+    });
+  }
+  /**
+   * 改变代表是否可用的生成器
+   */
+  changeRPEnabledSupplier = id => (value) => {
+    const { currentStore } = this.state;
+    this.props.dispatch({
+      type: 'store/changeRepresentEnableTo',
+      payload: {
+        store: currentStore,
+        id,
+        target: value,
+      },
+    });
+  }
+
+  hideRPList = () => {
+    this.setState({
+      openRPList: false,
+    });
+  }
+
+  /**
+   * 点击id的时候，我们就展示rp队列吧
+   */
+  subPageClickSupplier= id => () => {
+    // 先获取
+    this.props.dispatch({
+      type: 'store/fetchRepresent',
+      payload: {
+        store: id,
+      },
+      callback: () => {
+        this.setState({
+          openRPList: true,
+          currentStore: id,
+        });
+      },
+    });
+  }
+
   render() {
     const { data: { loading, data, changingEnableId, changing } } = this.props;
     return (
@@ -241,7 +328,7 @@ export default class StoreList extends PureComponent {
         renderFormComponent={this.searchForm}
         propsTable={
           {
-            revokeManagerSupplier: this.revokeManagerSupplier,
+            subPageClickSupplier: this.subPageClickSupplier,
             changeEnabledSupplier: this.changeEnabledSupplier,
             changingEnableId,
           }
@@ -252,6 +339,7 @@ export default class StoreList extends PureComponent {
         creationProps={{
           confirmLoading: changing,
         }}
+        bottom={this.bottom}
       />
     );
   }

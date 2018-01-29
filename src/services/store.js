@@ -38,8 +38,8 @@ export async function updateStoreEnabled(store, target) {
  * 获取特定门店的门店代表
  * @param {String} store 门店id
  */
-export async function getStoreRepresent(store) {
-  return requestJson(`/store/${store}/represent`);
+export async function getStoreRepresent(store, params) {
+  return requestJson(`/store/${store}/represent?${stringify(params)}`);
 }
 
 /**
