@@ -64,7 +64,6 @@ export default class RepresentTable extends PureComponent {
             // 获取改变的方法
             onChange = changeEnabledSupplier(obj.id);
           }
-          // console.log('id 分别为: ', changingEnableId, ' 和:', obj.storeId);
           return (
             <Switch
               onChange={onChange}

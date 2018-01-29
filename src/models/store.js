@@ -209,7 +209,7 @@ export default {
         // 调整 data.list 中符合条件的值
         data: {
           ...state.data,
-          list: state.data.list.map(l => (l.storeId === action.payload.id ? {
+          list: state.data.list.map(l => (l.id === action.payload.id ? {
             ...l,
             enabled: action.payload.target,
           } : l)),

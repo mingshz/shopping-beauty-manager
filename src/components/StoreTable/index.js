@@ -46,7 +46,7 @@ export default class StoreTable extends PureComponent {
     const columns = [
       {
         title: 'ID',
-        dataIndex: 'storeId',
+        dataIndex: 'id',
         render: (value) => {
           if (!subPageClickSupplier) {
             return value;
@@ -81,14 +81,13 @@ export default class StoreTable extends PureComponent {
           let onChange = null;
           if (changeEnabledSupplier) {
             // 获取改变的方法
-            onChange = changeEnabledSupplier(obj.storeId);
+            onChange = changeEnabledSupplier(obj.id);
           }
-          // console.log('id 分别为: ', changingEnableId, ' 和:', obj.storeId);
           return (
             <Switch
               onChange={onChange}
               checked={value}
-              loading={changingEnableId === obj.storeId}
+              loading={changingEnableId === obj.id}
             />);
         },
       },
@@ -142,7 +141,7 @@ export default class StoreTable extends PureComponent {
         </div>
         <Table
           loading={loading}
-          rowKey="storeId"
+          rowKey="id"
           // rowKey={record => record.key}
           rowSelection={rowSelection}
           dataSource={list}

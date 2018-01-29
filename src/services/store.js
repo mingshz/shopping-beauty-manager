@@ -29,11 +29,6 @@ export async function updateStoreEnabled(store, target) {
   return putJson(`/store/${store}/enabled`, target).then(trueOnSuccessful);
 }
 
-// export async function getStore(params) {
-//   return requestJson(`/store/{storeId}/represent`);
-// }
-// 还有添加门店代表和 启用/禁用 代表
-
 /**
  * 获取特定门店的门店代表
  * @param {String} store 门店id
