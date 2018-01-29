@@ -242,29 +242,68 @@ export default class StoreList extends PureComponent {
     });
   }
 
+  forLoginOkPR = (login) => {
+    const { currentStore } = this.state;
+
+    this.props.dispatch({
+      type: 'store/addRepresent',
+      payload: {
+        store: currentStore,
+        login: login.id,
+      },
+      callback: this.forLoginClosePR,
+    });
+    // this.forLoginClosePR();
+  }
+  forLoginClosePR = () => {
+    this.setState({
+      openLoginSelectorPR: false,
+    });
+  }
+  forLoginPR = id => () => {
+    this.setState({
+      openLoginSelectorPR: true,
+      currentStore: id,
+    });
+  }
+
   /**
    * 构造Model with 代表
    */
   bottom = () => {
-    const { openRPList, selectedPRRows } = this.state;
+    const { openRPList, selectedPRRows, openLoginSelectorPR } = this.state;
     const { data: { represent, changingRepresentId, loading } } = this.props;
+
+    const LocalLoginSelector = connect((state) => {
+      return {
+        list: state.login.select,
+      };
+    })(LoginSelector);
+
     return (
-      <Modal
-        visible={openRPList}
-        title="代表名单"
-        onCancel={this.hideRPList}
-        onOk={this.hideRPList}
-      >
-        <RepresentTable
-          selectedRows={selectedPRRows}
-          onSelectRow={this.handleSelectPRRows}
-          changingEnableId={changingRepresentId}
-          changeEnabledSupplier={this.changeRPEnabledSupplier}
-          doDelete={this.deleteRPSupplier}
-          loading={loading}
-          data={represent}
+      <div>
+        <Modal
+          visible={openRPList}
+          title="代表名单"
+          onCancel={this.hideRPList}
+          onOk={this.hideRPList}
+        >
+          <RepresentTable
+            selectedRows={selectedPRRows}
+            onSelectRow={this.handleSelectPRRows}
+            changingEnableId={changingRepresentId}
+            changeEnabledSupplier={this.changeRPEnabledSupplier}
+            doDelete={this.deleteRPSupplier}
+            loading={loading}
+            data={represent}
+          />
+        </Modal>
+        <LocalLoginSelector
+          visible={openLoginSelectorPR}
+          onClose={this.forLoginClosePR}
+          onOk={this.forLoginOkPR}
         />
-      </Modal>
+      </div>
     );
   }
   deleteRPSupplier = id => () => {
@@ -331,6 +370,7 @@ export default class StoreList extends PureComponent {
             subPageClickSupplier: this.subPageClickSupplier,
             changeEnabledSupplier: this.changeEnabledSupplier,
             changingEnableId,
+            newRPSupplier: this.forLoginPR,
           }
         }
         creationTitle="新增门店"

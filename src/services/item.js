@@ -38,13 +38,8 @@ function auditItem(id, target, comment) {
  *  description richDescription
  */
 export async function newItem(params) {
-  return request('/item', {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    },
-    method: 'POST',
-    body: stringify(params),
-  }).then(trueOnSuccessful);
+  // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+  return request('/item', params).then(trueOnSuccessful);
 }
 
 export async function passItem(id, comment) {

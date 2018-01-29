@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Alert, Table, Switch } from 'antd';
+import { Alert, Table, Switch, Divider } from 'antd';
 import styles from './index.less';
 
 export default class StoreTable extends PureComponent {
@@ -36,12 +36,7 @@ export default class StoreTable extends PureComponent {
   render() {
     const { selectedRowKeys } = this.state;
     const { data: { list, pagination, changingEnableId }, loading, doDelete
-      , changeEnabledSupplier, subPageClickSupplier } = this.props;
-
-    // const status = ['关闭', '运行中', '已上线', '异常'];
-    // const clickMe = id => () => {
-    //   console.log('click me ', id);
-    // };
+      , changeEnabledSupplier, subPageClickSupplier, newRPSupplier } = this.props;
 
     const columns = [
       {
@@ -97,12 +92,16 @@ export default class StoreTable extends PureComponent {
       },
     ];
 
-    if (doDelete) {
+    if (doDelete || newRPSupplier) {
       columns.push({
         title: '操作',
         render: (_, record) => (
           <Fragment>
-            <a onClick={doDelete(record ? record.id : null)}>删除</a>
+            {doDelete ? (<a onClick={doDelete(record ? record.id : null)}>删除</a>) : null }
+            {(doDelete && newRPSupplier) ? (<Divider type="vertical" />) : null}
+            {newRPSupplier ? (
+              <a onClick={newRPSupplier(record ? record.id : null)}>新增操作员</a>
+            ) : null }
             {/* <Divider type="vertical" />
             <a href="">订阅警报</a> */}
           </Fragment>
