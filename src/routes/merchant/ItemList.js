@@ -93,6 +93,7 @@ export default class ItemList extends PureComponent {
         renderFormComponent={this.searchForm}
         propsTable={
           {
+            merchantMode: true,
             changeEnabledSupplier: this.changeEnabledSupplier,
           }
         }

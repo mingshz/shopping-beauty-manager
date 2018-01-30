@@ -1,5 +1,5 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Alert, Table, Switch, Avatar } from 'antd';
+import React, { PureComponent } from 'react';
+import { Alert, Table, Switch, Avatar, Menu, Button, Dropdown, Icon } from 'antd';
 import styles from './index.less';
 
 /**
@@ -41,7 +41,7 @@ export default class ItemTable extends PureComponent {
     const { selectedRowKeys } = this.state;
     const { data: { list, pagination, changingEnableId }, loading, doDelete
       , changeEnabledSupplier, subPageClickSupplier, tableRowSelectionProps
-      , simpleMode, storeMode } = this.props;
+      , simpleMode, storeMode, merchantMode, auditOperationSupplier } = this.props;
 
     // colSpan
     const columns = [
@@ -126,23 +126,61 @@ export default class ItemTable extends PureComponent {
       || c.title === '原价'
       || c.title === '销售价'
     ).filter(c => !storeMode
-      || c.title === 'ID'
-      || c.title === '名称'
-      || c.title === '激活'
-      || c.title === '推荐'
-      || c.title === '原价'
-      || c.title === '销售价'
+        || c.title === 'ID'
+        || c.title === '名称'
+        || c.title === '激活'
+        || c.title === '推荐'
+        || c.title === '原价'
+        || c.title === '销售价'
+    ).filter(c => !merchantMode
+        || c.title === 'ID'
+        || c.title === '图片'
+        || c.title === '名称'
+        || c.title === '类型'
+        || c.title === '激活'
+        || c.title === '推荐'
+        || c.title === '原价'
+        || c.title === '销售价'
+        || c.title === '审核状态'
     );
 
-    if (doDelete) {
+    // auditOperationSupplier
+    if (doDelete || auditOperationSupplier) {
+      // 给一个id 就可以获得一个 Dropdown
+      const actionGenerator = (id) => {
+        const itemGenerator = (name, onClick) => () => {
+          return (
+            <Menu.Item>
+              <Button onClick={onClick(id)}>{name}</Button>
+            </Menu.Item>
+          );
+        };
+        const items = [];
+        if (doDelete) {
+          items.push(itemGenerator('删除', doDelete));
+        }
+        if (auditOperationSupplier) {
+          items.push(itemGenerator('通过', auditOperationSupplier.pass));
+          items.push(itemGenerator('拒绝', auditOperationSupplier.refuse));
+        }
+
+        const menu = (
+          <Menu>
+            {items.map(g => g())}
+          </Menu>
+        );
+        return (
+          <Dropdown overlay={menu}>
+            <a className="ant-dropdown-link">
+              操作<Icon type="down" />
+            </a>
+          </Dropdown>
+        );
+      };
       columns.push({
         title: '操作',
         render: (_, record) => (
-          <Fragment>
-            <a onClick={doDelete(record ? record.id : null)}>删除</a>
-            {/* <Divider type="vertical" />
-            <a href="">订阅警报</a> */}
-          </Fragment>
+          actionGenerator(record.id)
         ),
       });
     }
@@ -163,16 +201,16 @@ export default class ItemTable extends PureComponent {
     };
 
     return (
-      <div className={styles.standardTable}>
+      <div className={styles.standardTable} >
         <div className={styles.tableAlert}>
           <Alert
             message={(
               <div>
-                已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
+              已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
                 {/* 服务调用总计 <span style={{ fontWeight: 600 }}>{totalCallNo}</span> 万 */}
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>清空</a>
               </div>
-            )}
+          )}
             type="info"
             showIcon
           />
@@ -180,7 +218,7 @@ export default class ItemTable extends PureComponent {
         <Table
           loading={loading}
           rowKey="id"
-          // rowKey={record => record.key}
+        // rowKey={record => record.key}
           rowSelection={rowSelection}
           dataSource={list}
           columns={columns}
