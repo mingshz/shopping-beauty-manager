@@ -52,7 +52,7 @@ export default class ItemAuditList extends PureComponent {
           dispatch({
             type: `itemAudit/${auditType}`,
             payload: {
-              auditId,
+              id: auditId,
               comment: currentComment,
             },
             callback: () => {

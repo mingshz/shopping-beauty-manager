@@ -1,4 +1,4 @@
-import { getAllItem, newItem, updateItemEnabled, updateItemRecommended } from '../services/item';
+import { getAllItem, newItem, updateItemEnabled, updateItemRecommended, commitItem } from '../services/item';
 
 // import { xxx } from '../services/xxx';
 export default {
@@ -20,6 +20,21 @@ export default {
     changingRecommendedId: null,
   },
   effects: {
+    /**
+     * payload包含id,comment，表示提交要提交审核了
+     */
+    *commitItem({ payload, callback }, { call, put }) {
+      yield put({
+        type: 'changeChanging',
+        payload: true,
+      });
+      yield call(commitItem, payload.id, payload.comment);
+      yield put({
+        type: 'changeChanging',
+        payload: false,
+      });
+      if (callback) { callback(); }
+    },
     /**
      * payload包含id,target
      */

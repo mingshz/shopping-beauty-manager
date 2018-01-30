@@ -2,6 +2,15 @@ import { stringify } from 'qs';
 import request, { requestJson, putJson, trueOnSuccessful } from '../utils/request';
 
 /**
+ *
+ * @param {object} data 项目数据
+ * @returns {boolean} 是否可以被提交审核
+ */
+export function shouldCommit(data) {
+  return data.auditStatus === 'NOT_SUBMIT' || data.auditStatus === 'AUDIT_FAILED';
+}
+
+/**
  * @param {*} params 查询参数
  * @returns 待审核的项目
  */
@@ -50,6 +59,14 @@ export async function refuseItem(id, comment) {
   return auditItem(id, 'AUDIT_FAILED', comment);
 }
 
+export async function commitItem(id, comment) {
+  return putJson(`/item/${id}/commit`, 'TO_AUDIT', {
+    headers: {
+      comment,
+    },
+  })
+    .then(trueOnSuccessful);
+}
 
 /**
  * 改变推荐状态

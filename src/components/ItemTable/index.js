@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Alert, Table, Switch, Avatar, Menu, Button, Dropdown, Icon } from 'antd';
 import styles from './index.less';
+import { shouldCommit } from '../../services/item';
 
 /**
  * 为了2者都可用
@@ -147,11 +148,11 @@ export default class ItemTable extends PureComponent {
     // auditOperationSupplier
     if (doDelete || auditOperationSupplier) {
       // 给一个id 就可以获得一个 Dropdown
-      const actionGenerator = (id) => {
+      const actionGenerator = (record) => {
         const itemGenerator = (name, onClick) => () => {
           return (
             <Menu.Item>
-              <Button onClick={onClick(id)}>{name}</Button>
+              <Button onClick={onClick(record.id)}>{name}</Button>
             </Menu.Item>
           );
         };
@@ -160,8 +161,9 @@ export default class ItemTable extends PureComponent {
           items.push(itemGenerator('删除', doDelete));
         }
         if (auditOperationSupplier) {
-          items.push(itemGenerator('通过', auditOperationSupplier.pass));
-          items.push(itemGenerator('拒绝', auditOperationSupplier.refuse));
+          if (auditOperationSupplier.pass) { items.push(itemGenerator('通过', auditOperationSupplier.pass)); }
+          if (auditOperationSupplier.refuse) { items.push(itemGenerator('拒绝', auditOperationSupplier.refuse)); }
+          if (auditOperationSupplier.commit && shouldCommit(record)) { items.push(itemGenerator('提交审核', auditOperationSupplier.commit)); }
         }
 
         const menu = (
@@ -180,7 +182,7 @@ export default class ItemTable extends PureComponent {
       columns.push({
         title: '操作',
         render: (_, record) => (
-          actionGenerator(record.id)
+          actionGenerator(record)
         ),
       });
     }

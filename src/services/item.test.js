@@ -1,9 +1,9 @@
-import { getAuditItem, passItem, refuseItem, newItem, updateItemEnabled, updateItemRecommended } from './item';
+import { getAuditItem, passItem, refuseItem, newItem, updateItemEnabled, updateItemRecommended, commitItem } from './item';
 
 describe('项目测试', () => {
   it('获取待审核项目', () => {
     return getAuditItem().then((result) => {
-      console.log(result);
+      expect(result.data.length).toBeGreaterThanOrEqual(10);
     });
   });
   it('通过一个项目', () => {
@@ -41,6 +41,11 @@ describe('项目测试', () => {
   it('上下架更变', () => {
     return updateItemEnabled([1, 2, 3], false).then((rs) => {
       expect(rs).toBe(true);
+    });
+  });
+  it('提交审核', () => {
+    return commitItem(123, 'ok').then((rs) => {
+      expect(rs).toBeTruthy();
     });
   });
 });
