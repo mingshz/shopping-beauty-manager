@@ -1,5 +1,5 @@
 import { stringify } from 'qs';
-import request, { requestJson, putJson, trueOnSuccessful } from '../utils/request';
+import { requestJson, putJson, trueOnSuccessful, postJson } from '../utils/request';
 
 /**
  *
@@ -33,10 +33,9 @@ export async function getAllItem(params) {
 }
 
 function auditItem(id, target, comment) {
-  return putJson(`/item/${id}/auditStatus`, target, {
-    headers: {
-      comment,
-    },
+  return putJson(`/item/${id}/auditStatus`, {
+    status: target,
+    comment,
   })
     .then(trueOnSuccessful);
 }
@@ -48,7 +47,7 @@ function auditItem(id, target, comment) {
  */
 export async function newItem(params) {
   // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-  return request('/item', params).then(trueOnSuccessful);
+  return postJson('/item', params).then(trueOnSuccessful);
 }
 
 export async function passItem(id, comment) {
@@ -60,10 +59,9 @@ export async function refuseItem(id, comment) {
 }
 
 export async function commitItem(id, comment) {
-  return putJson(`/item/${id}/commit`, 'TO_AUDIT', {
-    headers: {
-      comment,
-    },
+  return putJson(`/item/${id}/commit`, {
+    status: 'TO_AUDIT',
+    comment,
   })
     .then(trueOnSuccessful);
 }

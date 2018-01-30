@@ -8,13 +8,13 @@ describe('项目测试', () => {
   });
   it('通过一个项目', () => {
     // const result = JSON.parse('"AUDIT_PASS"');
-    return passItem(1111).then((rs) => {
-      expect(rs).toBe(true);
+    return passItem(1111, '中文').then((rs) => {
+      expect(rs).toBeTruthy();
     });
   });
-  it('通过一个项目', () => {
-    return refuseItem(1111).then((rs) => {
-      expect(rs).toBe(true);
+  it('拒绝一个项目', () => {
+    return refuseItem(1111, 'Englsh').then((rs) => {
+      expect(rs).toBeTruthy();
     });
   });
   it('新增一个项目', () => {

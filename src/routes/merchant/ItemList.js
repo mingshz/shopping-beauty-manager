@@ -1,7 +1,9 @@
 
 import { connect } from 'dva';
 import React, { PureComponent } from 'react';
-import { Form, Row, Col, Input, Radio, Modal } from 'antd';
+import { Form, Row, Col, Input, Radio, Modal, InputNumber } from 'antd';
+import BraftEditor from 'braft-editor';
+import 'braft-editor/dist/braft.css';
 import AbstractTablePage from '../util/AbstractTablePage';
 import ItemTable from '../../components/ItemTable/index';
 
@@ -16,12 +18,16 @@ export default class ItemList extends PureComponent {
     openComment: false,
     comment: '',
     auditId: null,
+    richDescription: {
+      value: '',
+    },
   }
   /**
    * 新增用户的表单内容
    */
   onCreateRender = (form) => {
     const { getFieldDecorator } = form;
+    const { richDescription } = this.state;
     return (
       // <Row gutter={{ md: 8, sm: 16, lg: 24, xl: 48 }}>
       //   <Col md={8} sm={16}>
@@ -30,35 +36,17 @@ export default class ItemList extends PureComponent {
           <Col>
             <FormItem
               required="true"
-              label="所有者"
-            >
-              {getFieldDecorator('loginId', {
-                rules: [
-                  {
-                    required: true,
-                    message: '必须选择所有者',
-                  }],
-              })(
-                <Input type="hidden" />
-                )}
-            </FormItem>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <FormItem
-              required="true"
-              label="商户名称"
+              label="项目名称"
             >
               {getFieldDecorator('name', {
                 rules: [
                   {
                     required: true,
                     min: 3,
-                    message: '必须输入商户名称',
+                    message: '必须输入项目名称',
                   }],
               })(
-                <Input placeholder="请输入商户名称" />
+                <Input placeholder="请输入项目名称" />
                 )}
             </FormItem>
           </Col>
@@ -67,17 +55,70 @@ export default class ItemList extends PureComponent {
           <Col>
             <FormItem
               required="true"
-              label="联系人"
+              label="项目类型"
             >
-              {getFieldDecorator('contact', {
+              {getFieldDecorator('itemType', {
                 rules: [
                   {
                     required: true,
                     min: 3,
-                    message: '必须输入联系人',
+                    message: '必须输入项目类型',
                   }],
               })(
-                <Input placeholder="请输入联系人" />
+                <Input placeholder="请输入项目类型" />
+                )}
+            </FormItem>
+          </Col>
+        </Row>
+        {/* thumbnailUrl */}
+        <Row gutter={{ md: 8, sm: 16, lg: 24, xl: 48 }}>
+          <Col md={12} sm={24}>
+            <FormItem
+              required="true"
+              label="结算价"
+            >
+              {getFieldDecorator('costPrice', {
+                rules: [
+                  {
+                    required: true,
+                    message: '必须输入有效的结算价',
+                  }],
+              })(
+                <InputNumber min={0} step={0.01} />
+                )}
+            </FormItem>
+          </Col>
+          <Col md={12} sm={24}>
+            <FormItem
+              required="true"
+              label="销售价"
+            >
+              {getFieldDecorator('salesPrice', {
+                rules: [
+                  {
+                    required: true,
+                    message: '必须输入有效的销售价',
+                  }],
+              })(
+                <InputNumber min={0} step={0.01} />
+                )}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={{ md: 8, sm: 16, lg: 24, xl: 48 }}>
+          <Col md={12} sm={24}>
+            <FormItem
+              required="true"
+              label="原价"
+            >
+              {getFieldDecorator('price', {
+                rules: [
+                  {
+                    required: true,
+                    message: '必须输入有效的原价',
+                  }],
+              })(
+                <InputNumber min={0} step={0.01} />
                 )}
             </FormItem>
           </Col>
@@ -86,17 +127,17 @@ export default class ItemList extends PureComponent {
           <Col>
             <FormItem
               required="true"
-              label="联系方式"
+              label="缩略图"
             >
-              {getFieldDecorator('telephone', {
+              {getFieldDecorator('thumbnailUrl', {
                 rules: [
                   {
                     required: true,
                     min: 3,
-                    message: '必须输入联系方式',
+                    message: '必须输入缩略图',
                   }],
               })(
-                <Input placeholder="请输入联系方式" />
+                <Input placeholder="请输入缩略图" />
                 )}
             </FormItem>
           </Col>
@@ -105,19 +146,33 @@ export default class ItemList extends PureComponent {
           <Col>
             <FormItem
               required="true"
-              label="商户地址"
+              label="简述"
             >
-              {getFieldDecorator('address', {
+              {getFieldDecorator('description', {
                 rules: [
                   {
                     required: true,
                     min: 3,
-                    message: '必须输入商户地址',
+                    message: '必须输入简述',
                   }],
               })(
-                <Input placeholder="请输入商户地址" />
+                <Input placeholder="请输入简述" />
                 )}
             </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={0}>
+          <Col>
+            <BraftEditor onHTMLChange={(value) => {
+                richDescription.value = value;
+                // this.setState({
+                //   richDescription: value,
+                // });
+                // form.setFieldsValue({
+                //   richDescription: value,
+                // });
+              }}
+            />
           </Col>
         </Row>
       </Form>
@@ -167,14 +222,18 @@ export default class ItemList extends PureComponent {
       auditId: id,
     });
   }
-  doAdd = (data) => {
+  doAdd = (data, closeModal) => {
+    // richDescription
     const { dispatch } = this.props;
+    const { richDescription } = this.state;
     dispatch({
       type: 'item/add',
       payload: {
         ...data,
+        richDescription: richDescription.value,
         merchantId: this.myMerchantId(),
       },
+      callback: closeModal,
     });
   }
   myMerchantId = () => {
@@ -234,14 +293,14 @@ export default class ItemList extends PureComponent {
             <Form.Item label="名称">
               {getFieldDecorator('itemName')(
                 <Input />
-            )}
+              )}
             </Form.Item>
           </Col>
           <Col md={8} sm={24}>
             <Form.Item label="类型">
               {getFieldDecorator('itemType')(
                 <Input />
-            )}
+              )}
             </Form.Item>
           </Col>
           <Col md={8} sm={24}>
@@ -284,6 +343,8 @@ export default class ItemList extends PureComponent {
         creationAction={this.doAdd}
         creationProps={{
           confirmLoading: changing,
+          zIndex: 10,
+          // 为了让富文本编辑器顺利工作
         }}
       />
     );
