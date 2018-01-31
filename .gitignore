@@ -11,4 +11,3 @@
 npm-debug.log*
 .mock
 .vscode
-package-lock.json
