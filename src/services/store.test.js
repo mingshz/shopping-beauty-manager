@@ -3,7 +3,7 @@ import { getStore, newStore, updateStoreEnabled, getStoreRepresent, newStoreRepr
 describe('门店测试', () => {
   it('获取门店', () => {
     return getStore().then((result) => {
-      expect(result.data.length).toBeGreaterThanOrEqual(10);
+      expect(result.list.length).toBeGreaterThanOrEqual(10);
     });
   });
   it('新增一个门店', () => {

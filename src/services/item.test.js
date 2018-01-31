@@ -3,7 +3,7 @@ import { getAuditItem, passItem, refuseItem, newItem, updateItemEnabled, updateI
 describe('项目测试', () => {
   it('获取待审核项目', () => {
     return getAuditItem().then((result) => {
-      expect(result.data.length).toBeGreaterThanOrEqual(10);
+      expect(result.list.length).toBeGreaterThanOrEqual(10);
     });
   });
   it('通过一个项目', () => {
@@ -21,7 +21,7 @@ describe('项目测试', () => {
     return newItem({
       merchantId: 3399,
       name: '中文',
-      thumbnailUrl: 'http://www.abc.com/xx.png',
+      imagePath: 'com/xx.png',
       itemType: '消遣',
       price: 200,
       salesPrice: 150,

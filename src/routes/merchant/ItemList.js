@@ -2,10 +2,11 @@
 import { connect } from 'dva';
 import React, { PureComponent } from 'react';
 import { Form, Row, Col, Input, Radio, Modal, InputNumber } from 'antd';
-import BraftEditor from 'braft-editor';
-import 'braft-editor/dist/braft.css';
+// import BraftEditor from 'braft-editor';
+import MyBraftEditor from '../../components/MyBraftEditor';
 import AbstractTablePage from '../util/AbstractTablePage';
 import ItemTable from '../../components/ItemTable/index';
+import ItemCreationFormModal from '../../components/ItemCreationFormModal';
 
 // eslint-disable-next-line
 const FormItem = Form.Item;
@@ -139,6 +140,7 @@ export default class ItemList extends PureComponent {
               })(
                 <Input placeholder="请输入缩略图" />
                 )}
+
             </FormItem>
           </Col>
         </Row>
@@ -163,14 +165,9 @@ export default class ItemList extends PureComponent {
         </Row>
         <Row gutter={0}>
           <Col>
-            <BraftEditor onHTMLChange={(value) => {
+            <MyBraftEditor
+              onHTMLChange={(value) => {
                 richDescription.value = value;
-                // this.setState({
-                //   richDescription: value,
-                // });
-                // form.setFieldsValue({
-                //   richDescription: value,
-                // });
               }}
             />
           </Col>
@@ -339,6 +336,7 @@ export default class ItemList extends PureComponent {
         }
         bottom={this.bottom}
         creationTitle="新增项目"
+        creationFormModal={ItemCreationFormModal}
         creationRender={this.onCreateRender}
         creationAction={this.doAdd}
         creationProps={{

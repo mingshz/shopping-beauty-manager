@@ -123,6 +123,9 @@ export default class AbstractTablePage extends PureComponent {
       const { data, loading, table, propsLayout, propsTable, bottom, creationTitle, creationRender
         , creationAction, creationPrepare, creationFormOptions, creationProps
         , cardOnly, tableOnly, tableListOperator } = this.props;
+        // 客户端使用了独有的Modal创建表单
+      const { creationFormModal } = this.props;
+      const CreationFormModal = creationFormModal;
       const myAction = (formData) => {
         return creationAction(formData, () => {
           this.handleModalVisible(false);
@@ -184,7 +187,15 @@ export default class AbstractTablePage extends PureComponent {
       const allResult = (
         <div>
           {cardResult}
-          {creation ? (
+          {creation ? (CreationFormModal ? (
+            <CreationFormModal
+              {...creationProps}
+              title={creationTitle}
+              visible={modalVisible}
+              onCancel={() => this.handleModalVisible()}
+              onOk={myAction}
+            />
+          ) : (
             <LocalFormModal
               {...creationProps}
               title={creationTitle}
@@ -194,7 +205,7 @@ export default class AbstractTablePage extends PureComponent {
               onCancel={() => this.handleModalVisible()}
               onOk={myAction}
             />
-          ) : null }
+          )) : null }
           {bottom ? bottom() : null}
         </div>
       );

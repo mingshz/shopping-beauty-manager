@@ -5,7 +5,7 @@ describe('门店项目测试', () => {
     return getStoreItem({
       storeId: 3399,
     }).then((result) => {
-      expect(result.data.length).toBeGreaterThanOrEqual(10);
+      expect(result.list.length).toBeGreaterThanOrEqual(10);
     });
   });
   it('推荐更变', () => {
