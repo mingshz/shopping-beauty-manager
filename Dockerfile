@@ -3,7 +3,7 @@ FROM node AS builder
 
 ADD . /build/
 WORKDIR /build/
-RUN ["npm","install"]
+RUN ["npm","install","--no-optional"]
 RUN ["npm","run","build"]
 
 # 构建运行环境
