@@ -69,13 +69,17 @@ const menuData = [{
   //   name: '注册结果',
   //   path: 'register-result',
   }],
+// }, {
+//   name: '使用文档',
+//   icon: 'book',
+//   path: 'http://pro.ant.design/docs/getting-started',
+//   target: '_blank',
 }, {
-  name: '使用文档',
+  name: '系统设置',
   icon: 'book',
-  path: 'http://pro.ant.design/docs/getting-started',
+  path: `${location.protocol}//${location.hostname}/_managerSystemString`,
   target: '_blank',
 }];
-
 function formatter(data, parentPath = '', parentAuthority) {
   return data.map((item) => {
     const result = {
