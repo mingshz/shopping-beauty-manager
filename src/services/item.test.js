@@ -13,7 +13,7 @@ describe('项目测试', () => {
     });
   });
   it('拒绝一个项目', () => {
-    return refuseItem(1111, 'Englsh').then((rs) => {
+    return refuseItem(1111, 'English').then((rs) => {
       expect(rs).toBeTruthy();
     });
   });

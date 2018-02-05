@@ -8,7 +8,7 @@ describe('门店测试', () => {
   });
   it('新增一个门店', () => {
     return newStore({
-      merchantId: 3399,
+      merchantId: 3398,
       loginId: 100,
       name: '中文又如何',
       contact: '联系人',

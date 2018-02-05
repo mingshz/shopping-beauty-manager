@@ -3,7 +3,7 @@ import { getStoreItem, updateStoreItemRecommended, updateStoreItemEnabled, newSt
 describe('门店项目测试', () => {
   it('获取门店项目', () => {
     return getStoreItem({
-      storeId: 3399,
+      storeId: 3398,
     }).then((result) => {
       expect(result.list.length).toBeGreaterThanOrEqual(10);
     });

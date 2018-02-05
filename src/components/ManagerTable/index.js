@@ -1,11 +1,13 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Alert, Table, Switch, Tag } from 'antd';
+import { Alert, Table, Switch, Tag, Divider } from 'antd';
+import LevelChooser from '../../components/LevelChooser';
 import styles from './index.less';
 import { authorityName } from '../../services/manager';
 
 export default class ManagerTable extends PureComponent {
   state = {
     selectedRowKeys: [],
+    openLevelChooser: false,
   };
   componentWillReceiveProps(nextProps) {
     // clean state
@@ -14,6 +16,20 @@ export default class ManagerTable extends PureComponent {
         selectedRowKeys: [],
       });
     }
+  }
+  levelSetDone = (targets) => {
+    const { forID } = this.state;
+    const { changeManagerLevel } = this.props;
+    changeManagerLevel(forID, targets);
+    this.setState({
+      openLevelChooser: false,
+    });
+  }
+  openLevelSetChangeFor = id => () => {
+    this.setState({
+      openLevelChooser: true,
+      forID: id,
+    });
   }
   handleRowSelectChange = (selectedRowKeys, selectedRows) => {
     // const totalCallNo = selectedRows.reduce((sum, val) => {
@@ -103,6 +119,8 @@ export default class ManagerTable extends PureComponent {
       },
     ];
 
+    // eslint-disable-next-line
+    const openLevelSetChangeFor = this.openLevelSetChangeFor;
     // 此处可以撤销管理员
     if (revokeManagerSupplier) {
       columns.push({
@@ -112,8 +130,9 @@ export default class ManagerTable extends PureComponent {
           return (
             <Fragment>
               <a onClick={revoke}>撤销</a>
-              {/* <Divider type="vertical" />
-            <a href="">订阅警报</a> */}
+              <Divider type="horizontal" />
+              <a onClick={openLevelSetChangeFor(data.id)}>调整
+              </a>
             </Fragment>
           );
         },
@@ -148,6 +167,8 @@ export default class ManagerTable extends PureComponent {
       }),
     };
 
+    const { openLevelChooser } = this.state;
+
     return (
       <div className={styles.standardTable}>
         <div className={styles.tableAlert}>
@@ -172,6 +193,17 @@ export default class ManagerTable extends PureComponent {
           columns={columns}
           pagination={paginationProps}
           onChange={this.handleTableChange}
+        />
+        <LevelChooser
+          visible={openLevelChooser}
+          data={{
+          rootGeneral: '主管',
+          rootSettlementManager: '结算专员',
+          rootItemManager: '项目管理专员',
+          rootMerchantManager: '商户管理专员',
+        }}
+          onOk={this.levelSetDone}
+          onCancel={() => this.setState({ openLevelChooser: false })}
         />
       </div>
     );

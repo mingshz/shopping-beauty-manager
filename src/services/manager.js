@@ -1,5 +1,5 @@
 import { stringify } from 'qs';
-import request, { requestJson, putJson } from '../utils/request';
+import request, { requestJson, putJson, trueOnSuccessful } from '../utils/request';
 
 /**
  * 登出
@@ -97,18 +97,9 @@ export async function getManager(params) {
 /**
  * 改变某登录的可管理状态
  * @param {String} id id
- * @param {boolean} target 是否可管理
+ * @param {Array<String>} target 是否可管理
  */
 export async function updateManageable(id, target) {
-  putJson(`/manage/${encodeURIComponent(id)}`, {
-    manageable: target,
-  });
+  return putJson(`/manage/${encodeURIComponent(id)}/levelSet`, target)
+    .then(trueOnSuccessful);
 }
-
-export function postExample(params) {
-  return request('/api/post', {
-    method: 'POST',
-    body: params,
-  });
-}
-

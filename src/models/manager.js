@@ -10,6 +10,11 @@ export default {
     },
   },
   effects: {
+    /**
+     * 更新权限
+     * id目标用
+     * target角色组
+     */
     *updateManageable({ payload, callback }, { call, put }) {
       yield put({
         type: 'changeLoading',

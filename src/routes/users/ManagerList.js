@@ -19,12 +19,22 @@ export default class ManagerList extends PureComponent {
         payload: params,
       });
     }
+    changeManagerLevel = (id, target) => {
+      this.props.dispatch({
+        type: 'manager/updateManageable',
+        payload: {
+          id,
+          target,
+        },
+        callback: this.fetchData,
+      });
+    }
     revokeManagerSupplier = id => () => {
       this.props.dispatch({
         type: 'manager/updateManageable',
         payload: {
           id,
-          target: false,
+          target: [],
         },
         callback: this.fetchData,
       });
@@ -57,6 +67,7 @@ export default class ManagerList extends PureComponent {
           propsTable={
               {
                 revokeManagerSupplier: this.revokeManagerSupplier,
+                changeManagerLevel: this.changeManagerLevel,
               }
           }
         />
