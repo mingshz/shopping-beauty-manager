@@ -1,4 +1,4 @@
-import { AuthorityRoot, AuthorityPlantformMerchantManage, AuthorityMerchantOwner, AuthorityMerchantItem, AuthorityMerchantStore, AuthorityPlatformItemAudit } from '../services/manager';
+import { AuthorityRoot, AuthorityPlatformMerchantManage, AuthorityMerchantOwner, AuthorityMerchantItem, AuthorityMerchantStore, AuthorityPlatformItemAudit } from '../services/manager';
 import { getLocalMerchantId } from '../utils/authorityStorage';
 
 /**
@@ -18,7 +18,7 @@ const menuData = [{
   name: '用户管理',
   icon: 'user',
   path: 'users',
-  authority: [AuthorityRoot, AuthorityPlantformMerchantManage],
+  authority: [AuthorityRoot, AuthorityPlatformMerchantManage],
   children: [{
     name: '管理员',
     path: 'manager',
@@ -79,6 +79,7 @@ const menuData = [{
   icon: 'book',
   path: `${location.protocol}//${location.hostname}/_managerSystemString`,
   target: '_blank',
+  authority: [AuthorityRoot, '_M_CJ_SYSTEM_STRING'],
 }];
 function formatter(data, parentPath = '', parentAuthority) {
   return data.map((item) => {

@@ -1,5 +1,5 @@
 import { stringify } from 'qs';
-import request, { requestJson, trueOnSuccessful, putJson } from '../utils/request';
+import { requestJson, trueOnSuccessful, putJson, postJson } from '../utils/request';
 
 /**
  * 获取门店项目
@@ -20,17 +20,23 @@ export async function getStoreItem(params) {
  * @param {Number} price 可选价格
  */
 export async function newStoreItem(store, item, price) {
-  return request('/storeitem', {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    },
-    method: 'POST',
-    body: stringify({
-      itemId: item,
-      storeId: store,
-      salesPrice: price,
-    }),
-  }).then(trueOnSuccessful);
+  return postJson('/storeitem', {
+    itemId: item,
+    storeId: store,
+    salesPrice: price,
+  })
+    .then(trueOnSuccessful);
+  // return request('/storeitem', {
+  //   headers: {
+  //     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+  //   },
+  //   method: 'POST',
+  //   body: stringify({
+  //     itemId: item,
+  //     storeId: store,
+  //     salesPrice: price,
+  //   }),
+  // }).then(trueOnSuccessful);
 }
 /**
  * 改变推荐状态
@@ -42,7 +48,7 @@ export async function updateStoreItemRecommended(items, target) {
   if (items.constructor.name !== 'Array') {
     totalItems = [items];
   } else { totalItems = items; }
-  return putJson('/storeItem/recommended', {
+  return putJson('/storeItemUpdater/recommended', {
     items: totalItems,
     recommended: target,
   }).then(trueOnSuccessful);
@@ -58,7 +64,7 @@ export async function updateStoreItemEnabled(items, target) {
   if (items.constructor.name !== 'Array') {
     totalItems = [items];
   } else { totalItems = items; }
-  return putJson('/storeItem/enabled', {
+  return putJson('/storeItemUpdater/enabled', {
     items: totalItems,
     enabled: target,
   }).then(trueOnSuccessful);

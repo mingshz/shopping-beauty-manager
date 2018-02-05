@@ -76,7 +76,7 @@ export async function updateItemRecommended(items, target) {
   if (items.constructor.name !== 'Array') {
     totalItems = [items];
   } else { totalItems = items; }
-  return putJson('/item/recommended', {
+  return putJson('/itemUpdater/recommended', {
     items: totalItems,
     recommended: target,
   }).then(trueOnSuccessful);
@@ -92,7 +92,7 @@ export async function updateItemEnabled(items, target) {
   if (items.constructor.name !== 'Array') {
     totalItems = [items];
   } else { totalItems = items; }
-  return putJson('/item/enabled', {
+  return putJson('/itemUpdater/enabled', {
     items: totalItems,
     enabled: target,
   }).then(trueOnSuccessful);

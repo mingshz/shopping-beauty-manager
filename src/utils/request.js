@@ -6,7 +6,7 @@ function parseJSON(response) {
 
 /**
  * @param {ServerResponse} response 响应
- * @returns {boolean} 只要是2xx的响应那就是true
+ * @returns {boolean} 只要是2开头的响应那就是true
  */
 export function trueOnSuccessful(response) {
   if (!response.ok) {

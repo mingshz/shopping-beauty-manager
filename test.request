@@ -2,3 +2,8 @@ PUT http://localhost:8000/item/1/auditStatus HTTP/1.1
 Content-Type: application/json
 
 "AUDIT_PAS2S"
+#######
+PUT http://localhost:8000/storeItemUpdater/recommended HTTP/1.1
+Content-Type: application/json
+
+{"recommend":true,"items":[1,2,3]}

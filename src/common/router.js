@@ -2,7 +2,7 @@
 import React from 'react';
 import dynamic from 'dva/dynamic';
 import { getMenuData } from './menu';
-import { AuthorityRoot, AuthorityPlantformMerchantManage, AuthorityMerchantOwner, AuthorityMerchantStore, AuthorityMerchantItem, AuthorityPlatformItemAudit } from '../services/manager';
+import { AuthorityRoot, AuthorityPlatformMerchantManage, AuthorityMerchantOwner, AuthorityMerchantStore, AuthorityMerchantItem, AuthorityPlatformItemAudit } from '../services/manager';
 
 // wrapper of dynamic
 const dynamicWrapper = (app, models, component) => dynamic({
@@ -63,7 +63,7 @@ export const getRouterData = (app) => {
     },
     '/users/merchant': {
       component: dynamicWrapper(app, ['merchant', 'login'], () => import('../routes/users/MerchantList')),
-      authority: [AuthorityRoot, AuthorityPlantformMerchantManage],
+      authority: [AuthorityRoot, AuthorityPlatformMerchantManage],
     },
     '/merchant/:merchantId/manager': {
       component: dynamicWrapper(app, ['merchant', 'login'], () => import('../routes/merchant/ManagerList')),

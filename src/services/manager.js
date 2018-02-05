@@ -57,8 +57,8 @@ export const AuthorityRoot = 'ROLE_ROOT';
 authorityTable[AuthorityRoot] = '全权限';
 export const AuthorityPlatformItemAudit = 'ROLE_AUDIT_ITEM';
 authorityTable[AuthorityPlatformItemAudit] = '项目审核';
-export const AuthorityPlantformMerchantManage = 'ROLE_MANAGE_MERCHANT';
-authorityTable[AuthorityPlantformMerchantManage] = '商户管理';
+export const AuthorityPlatformMerchantManage = 'ROLE_MANAGE_MERCHANT';
+authorityTable[AuthorityPlatformMerchantManage] = '商户管理';
 export const AuthorityMerchantOwner = 'ROLE_MERCHANT_ROOT';
 authorityTable[AuthorityMerchantOwner] = '商户所有者';
 // 比如门店专员, 项目专员，结算专员（可能是同一个人）
