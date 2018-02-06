@@ -14,13 +14,13 @@ export default {
      */
     creation: {},
     /**
-     * 正在改变enable状态id
+     * 正在改变 enable 状态id
      */
     changingEnableId: null,
   },
   effects: {
     /**
-     * payload包含id,target
+     * payload 包含id,target
      */
     *changeEnableTo({ payload }, { call, put }) {
       yield put({

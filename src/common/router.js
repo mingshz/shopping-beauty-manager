@@ -66,7 +66,7 @@ export const getRouterData = (app) => {
       authority: [AuthorityRoot, AuthorityPlatformMerchantManage],
     },
     '/merchant/:merchantId/manager': {
-      component: dynamicWrapper(app, ['merchant', 'login'], () => import('../routes/merchant/ManagerList')),
+      component: dynamicWrapper(app, ['merchantManager', 'login'], () => import('../routes/merchant/ManagerList')),
       authority: [AuthorityRoot, AuthorityMerchantOwner],
     },
     '/merchant/:merchantId/storeDetail/:storeId': {
