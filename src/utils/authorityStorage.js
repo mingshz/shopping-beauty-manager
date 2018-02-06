@@ -5,7 +5,11 @@
  * @returns 本地保存的权限；可能是一个数组
  */
 export function getLocalAuthority() {
-  return localStorage.getItem('antd-pro-authority') || 'guest';
+  const gs = localStorage.getItem('antd-pro-authority');
+  if (gs && gs.indexOf(',') >= 0) {
+    return gs.split(',');
+  }
+  return gs || 'guest';
 }
 
 /**
