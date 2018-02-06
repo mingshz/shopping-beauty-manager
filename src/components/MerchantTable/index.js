@@ -90,7 +90,7 @@ export default class MerchantTable extends PureComponent {
       },
       {
         title: '创建时间',
-        dataIndex: 'createtime',
+        dataIndex: 'createTime',
       },
     ];
 

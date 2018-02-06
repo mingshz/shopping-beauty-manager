@@ -14,7 +14,7 @@ const FormItem = Form.Item;
 @connect(state => ({
   data: state.merchant,
 }))
-export default class MerchangeList extends PureComponent {
+export default class MerchantList extends PureComponent {
   state = {
     openLoginSelector: false,
   }
