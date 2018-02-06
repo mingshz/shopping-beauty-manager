@@ -12,7 +12,8 @@ export async function logout() {
  * 获取当前登录的管理员，否者就返回空结果
  */
 export async function getCurrent() {
-  return requestJson('/currentManager', null, () => null);
+  return requestJson('/currentManager', null)
+    .catch(() => null);
 }
 
 /**
