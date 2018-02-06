@@ -14,7 +14,7 @@ export default {
   },
   effects: {
     /**
-     * payload包含id,target
+     * payload 包含id,target
      */
     *changeEnableTo({ payload }, { call, put }) {
       yield put({

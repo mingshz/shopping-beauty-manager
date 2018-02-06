@@ -100,20 +100,7 @@ class LoginList extends PureComponent {
       payload: {},
     });
   }
-  handleRemove = id => () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'users/remove',
-      payload: {
-        id: [id],
-      },
-      callback: () => {
-        this.setState({
-          selectedRows: [],
-        });
-      },
-    });
-  }
+
   handleSearch = (e) => {
     e.preventDefault();
 
@@ -214,7 +201,6 @@ class LoginList extends PureComponent {
               data={data}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
-              doDelete={this.handleRemove}
               updateLoginManageableSupplier={this.updateLoginManageableSupplier}
               changeEnabledSupplier={this.changeEnabledSupplier}
               changingEnableId={changingEnableId}

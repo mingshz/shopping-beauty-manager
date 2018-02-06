@@ -66,7 +66,7 @@ function uploadJsonContent(url, method, data, options) {
 }
 
 /**
- * put data到url
+ * put data 到url
  * @param {String} url 请求的地址
  * @param {*} data 要提交的content
  * @param {*} options The options we want to pass to "fetch"
@@ -76,7 +76,7 @@ export function putJson(url, data, options) {
 }
 
 /**
- * post data到url
+ * post data 到url
  * @param {String} url 请求的地址
  * @param {*} data 要提交的content
  * @param {*} options The options we want to pass to "fetch"
