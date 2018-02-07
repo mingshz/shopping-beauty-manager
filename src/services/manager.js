@@ -50,14 +50,22 @@ export async function loginResult(id) {
 const authorityTable = {};
 
 // ROLE_MANAGE_ITEM
+export const AuthorityManageSystemString = 'ROLE__M_CJ_SYSTEM_STRING';
+authorityTable[AuthorityManageSystemString] = '系统参数管理';
 /**
  * 全权限用户
  */
 export const AuthorityRoot = 'ROLE_ROOT';
 authorityTable[AuthorityRoot] = '全权限';
+export const AuthorityUser = 'ROLE_USER';
+authorityTable[AuthorityUser] = '用户';
+export const AuthorityPlatformRead = 'ROLE_PLATFORM_READ';
+authorityTable[AuthorityPlatformRead] = '平台可读';
+export const AuthorityPlatformSettlement = 'ROLE_PLATFORM_SETTLEMENT';
+authorityTable[AuthorityPlatformSettlement] = '平台结算';
 export const AuthorityPlatformItemAudit = 'ROLE_AUDIT_ITEM';
 authorityTable[AuthorityPlatformItemAudit] = '项目审核';
-export const AuthorityPlatformMerchantManage = 'ROLE_MANAGE_MERCHANT';
+export const AuthorityPlatformMerchantManage = 'ROLE_PLATFORM_MERCHANT';
 authorityTable[AuthorityPlatformMerchantManage] = '商户管理';
 export const AuthorityMerchantOwner = 'ROLE_MERCHANT_ROOT';
 authorityTable[AuthorityMerchantOwner] = '商户所有者';
