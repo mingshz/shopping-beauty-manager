@@ -132,7 +132,7 @@ export default class AbstractTablePage extends PureComponent {
         });
       };
       const Table = table;
-      const creation = creationTitle && creationRender && creationAction;
+      const creation = (creationTitle && creationRender && creationAction) || CreationFormModal;
       let LocalFormModal;
       if (creation) {
         LocalFormModal = Form.create(creationFormOptions || {})(FormModal);
