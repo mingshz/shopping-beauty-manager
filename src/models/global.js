@@ -88,14 +88,19 @@ export default {
         type: 'changeLoading',
         payload: true,
       });
-      const current = yield call(getCurrent);
-
-      if (!current) {
+      try {
+        const current = yield call(getCurrent);
+        if (!current) {
+          yield put({
+            type: 'changeCurrentUser',
+          });
+        } else {
+          yield loginAs(put, current);
+        }
+      } catch (e) {
         yield put({
           type: 'changeCurrentUser',
         });
-      } else {
-        yield loginAs(put, current);
       }
       yield put({
         type: 'changeLoading',

@@ -5,11 +5,10 @@ import styles from './IndexPage.css';
 function IndexPage() {
   return (
     <div className={styles.normal}>
-      <h1 className={styles.title}>Yay! Welcome to dva!</h1>
-      <div className={styles.welcome} />
+      <h1 className={styles.title}>暂无内容</h1>
+      {/* <div className={styles.welcome} /> */}
       <ul className={styles.list}>
-        <li>To get started, edit <code>src/index.js</code> and save to reload.</li>
-        <li><a href="https://github.com/dvajs/dva-docs/blob/master/v1/en-us/getting-started.md">Getting Started</a></li>
+        <li>多读书，多看报；少生孩子，多种树。</li>
       </ul>
     </div>
   );
