@@ -18,5 +18,6 @@ export async function updateEnabled(id, enabled) {
 }
 
 export function humanReadName(data) {
-  return `${data.nickName}(${data.loginName})`;
+  if (data.wxNickName) { return `${data.mobile}(${data.wxNickName})`; }
+  return `${data.mobile}`;
 }
