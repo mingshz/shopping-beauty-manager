@@ -92,7 +92,7 @@ export default class ItemCreationFormModal extends PureComponent {
     const upload = (
       <Upload
         accept="image/*"
-        name="avatar"
+        name="file"
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
