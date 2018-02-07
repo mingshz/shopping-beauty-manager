@@ -1,4 +1,5 @@
 import fetch from 'dva/fetch';
+import allAddress from './address';
 
 function parseJSON(response) {
   return response.json();
@@ -145,4 +146,29 @@ let urlPrefix;
  */
 export function updateUrlPrefix(url) {
   urlPrefix = url;
+}
+
+export function wellFormAddress(address) {
+  // province => province,provinceCode
+  const data1 = find(allAddress, address.province);
+  const data2 = find(data1.children, address.prefecture);
+  // 有可能只存在前面2个……
+  let data3;
+  if (!data2.children || data2.children.length === 0 || !address.county) {
+    data3 = {
+      label: null,
+    };
+  } else { data3 = find(data2.children, address.county); }
+  return {
+    ...address,
+    provinceCode: address.province,
+    province: data1.label,
+    prefectureCode: address.prefecture,
+    prefecture: data2.label,
+    countyCode: address.county,
+    county: data3.label,
+  };
+}
+function find(data, code) {
+  return data.filter(c => c.value === code)[0];
 }

@@ -1,4 +1,5 @@
 import { getMerchant, newMerchant, updateEnabled } from './merchant';
+import { mockAddress } from '../../tests/common';
 
 
 describe('商户测试', () => {
@@ -13,7 +14,7 @@ describe('商户测试', () => {
       name: '中文又如何',
       contact: '联系人',
       telephone: '联系电话',
-      address: '地址呢？',
+      address: mockAddress(),
     }).then((rs) => {
       expect(rs).toBe(true);
     });

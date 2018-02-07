@@ -5,6 +5,7 @@ import React, { PureComponent } from 'react';
 import { Form, Row, Col, Input } from 'antd';
 import AbstractTablePage from '../util/AbstractTablePage';
 import MerchantTable from '../../components/MerchantTable';
+import AddressSelector from '../../components/AddressSelector';
 import { humanReadName } from '../../services/login';
 import LoginSelector from '../../components/LoginSelector';
 
@@ -118,16 +119,7 @@ export default class MerchantList extends PureComponent {
               required="true"
               label="商户地址"
             >
-              {getFieldDecorator('address', {
-                rules: [
-                  {
-                    required: true,
-                    min: 3,
-                    message: '必须输入商户地址',
-                  }],
-              })(
-                <Input placeholder="请输入商户地址" />
-                )}
+              <AddressSelector form={form} />
             </FormItem>
           </Col>
         </Row>

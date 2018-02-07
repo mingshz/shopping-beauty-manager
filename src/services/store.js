@@ -1,5 +1,5 @@
 import { stringify } from 'qs';
-import { requestJson, postJson, trueOnSuccessful, putJson, deleteRequest } from '../utils/request';
+import { requestJson, postJson, trueOnSuccessful, putJson, deleteRequest, wellFormAddress } from '../utils/request';
 
 /**
  * username 门店角色登录名（手机号）
@@ -16,7 +16,10 @@ export async function getStore(params) {
  * @param {object} params 参数
  */
 export async function newStore(params) {
-  return postJson('/store', params)
+  return postJson('/store', {
+    ...params,
+    address: wellFormAddress(params.address),
+  })
     .then(trueOnSuccessful);
 }
 

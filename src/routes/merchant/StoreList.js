@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react';
 import { Form, Row, Col, Input } from 'antd';
 import AbstractTablePage from '../util/AbstractTablePage';
 import StoreTable from '../../components/StoreTable';
+import AddressSelector from '../../components/AddressSelector';
 import { humanReadName } from '../../services/login';
 import LoginSelector from '../../components/LoginSelector';
 
@@ -117,16 +118,7 @@ export default class StoreList extends PureComponent {
               required="true"
               label="门店地址"
             >
-              {getFieldDecorator('address', {
-                rules: [
-                  {
-                    required: true,
-                    min: 3,
-                    message: '必须输入门店地址',
-                  }],
-              })(
-                <Input placeholder="请输入门店地址" />
-                )}
+              <AddressSelector form={form} />
             </FormItem>
           </Col>
         </Row>

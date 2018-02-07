@@ -1,4 +1,5 @@
 import { getStore, newStore, updateStoreEnabled, getStoreRepresent, newStoreRepresent, deleteStoreRepresent, updateStoreRepresent } from './store';
+import { mockAddress } from '../../tests/common';
 
 describe('门店测试', () => {
   it('获取门店', () => {
@@ -13,7 +14,7 @@ describe('门店测试', () => {
       name: '中文又如何',
       contact: '联系人',
       telephone: '联系电话',
-      address: '地址呢？',
+      address: mockAddress(),
     }).then((rs) => {
       expect(rs).toBe(true);
     });
