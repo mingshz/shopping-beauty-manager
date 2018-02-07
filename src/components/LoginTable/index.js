@@ -53,7 +53,7 @@ export default class LoginTable extends PureComponent {
         dataIndex: 'mobile',
       },
       {
-        title: '称谓',
+        title: '姓氏',
         dataIndex: 'name',
       },
       {
