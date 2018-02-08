@@ -26,6 +26,10 @@ class LoginPage extends Component {
     if (authorities) {
       return;
     }
+    // 还没获得id呢 急什么
+    if (!id) {
+      return;
+    }
     // console.log('current id:', id);
     this.props.dispatch({
       type: 'global/loginResult',
