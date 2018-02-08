@@ -94,10 +94,6 @@ export default class ItemCreationFormModal extends PureComponent {
         accept="image/*"
         name="file"
         listType="picture-card"
-        style={{
-          width: 102,
-          height: 102,
-        }}
         // className={styles.upload}
         // className="avatar-uploader"
         showUploadList={false}
@@ -107,7 +103,7 @@ export default class ItemCreationFormModal extends PureComponent {
         beforeUpload={beforeUpload}
         onChange={this.uploadChange}
       >
-        {imageUrl ? <img alt="上传的图片" src={imageUrl} /> : uploadButton}
+        {imageUrl ? <img alt="上传的图片" width={250} src={imageUrl} /> : uploadButton}
       </Upload>
     );
     const { form: { getFieldDecorator } } = this.props;
