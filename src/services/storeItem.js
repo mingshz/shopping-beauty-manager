@@ -10,7 +10,7 @@ import { requestJson, trueOnSuccessful, putJson, postJson } from '../utils/reque
  * @param {object} params 必须包含storeId
  */
 export async function getStoreItem(params) {
-  return requestJson(`/storeitem?${stringify(params)}`);
+  return requestJson(`/storeItem?${stringify(params)}`);
 }
 
 /**
@@ -20,23 +20,12 @@ export async function getStoreItem(params) {
  * @param {Number} price 可选价格
  */
 export async function newStoreItem(store, item, price) {
-  return postJson('/storeitem', {
+  return postJson('/storeItem', {
     itemId: item,
     storeId: store,
     salesPrice: price,
   })
     .then(trueOnSuccessful);
-  // return request('/storeitem', {
-  //   headers: {
-  //     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-  //   },
-  //   method: 'POST',
-  //   body: stringify({
-  //     itemId: item,
-  //     storeId: store,
-  //     salesPrice: price,
-  //   }),
-  // }).then(trueOnSuccessful);
 }
 /**
  * 改变推荐状态
