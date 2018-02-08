@@ -17,9 +17,9 @@ export default class ItemList extends PureComponent {
     openComment: false,
     comment: '',
     auditId: null,
-    richDescription: {
-      value: '',
-    },
+    // richDescription: {
+    //   value: '',
+    // },
   }
   commentUpdated = (e) => {
     this.setState({
@@ -68,12 +68,12 @@ export default class ItemList extends PureComponent {
   doAdd = (data, closeModal) => {
     // richDescription
     const { dispatch } = this.props;
-    const { richDescription } = this.state;
+    // const { richDescription } = this.state;
     dispatch({
       type: 'item/add',
       payload: {
         ...data,
-        richDescription: richDescription.value,
+        // richDescription: richDescription.value,
         merchantId: this.myMerchantId(),
       },
       callback: closeModal,

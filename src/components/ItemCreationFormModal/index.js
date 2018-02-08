@@ -35,7 +35,22 @@ export default class ItemCreationFormModal extends PureComponent {
       this.setState({ loading: true });
       return;
     }
+    // console.log(info.file.response);
+    const finishFn = (url, path) => {
+      // console.log('finish:', url, ' path:', path);
+      this.imagePathChange(path);
+      this.setState({
+        imageUrl: url,
+        loading: false,
+      });
+    };
+
     if (info.file.status === 'error') {
+      // 如果为本地开发 我们就认为它成功了
+      if (location.hostname === 'localhost') {
+        getBase64(info.file.originFileObj, url => finishFn(url, 'newImagePath'));
+        return;
+      }
       this.setState({
         loading: false,
       });
@@ -43,18 +58,6 @@ export default class ItemCreationFormModal extends PureComponent {
       return;
     }
     if (info.file.status === 'done') {
-      const { form } = this.props;
-      console.log(info.file.response);
-      const finishFn = (url, path) => {
-        console.log('finish:', url, ' path:', path);
-        form.setFieldsValue({
-          imagePath: path,
-        });
-        this.setState({
-          imageUrl: url,
-          loading: false,
-        });
-      };
       // 我们判断一下如果是来自 //jsonplaceholder.typicode.com/posts/ 的伪实现 那么我们就伪造结果
       // 反之就使用正常结果
       if (info.file.response.id && !info.file.response.path) {
@@ -66,18 +69,45 @@ export default class ItemCreationFormModal extends PureComponent {
       }
     }
   }
+  imagePathChange= (value) => {
+    // const { form } = this.props;
+    // form.setFieldsValue({
+    //   imagePath: value,
+    // });
+    // this.imagePath = value;
+    this.setState({
+      imagePath: value,
+    });
+  }
   richHtmlChange = (value) => {
-    const { form } = this.props;
-    form.setFieldsValue({
+    // this.richDescription = value;
+    // const { form } = this.props;
+    console.log('update to:', value);
+    // form.setFieldsValue({
+    //   richDescription: value,
+    // });
+    this.setState({
       richDescription: value,
     });
   }
   ok = () => {
+    console.log(this.state);
     const { onOk, form } = this.props;
+    console.log(onOk);
+    if (!this.state.imagePath) {
+      message.warn('请上传图片');
+      return;
+    }
+    if (!this.state.richDescription) {
+      message.warn('请详细描述这个项目');
+      return;
+    }
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       onOk({
         ...fieldsValue,
+        imagePath: this.state.imagePath,
+        richDescription: this.state.richDescription,
       });
     });
   }
@@ -254,16 +284,7 @@ export default class ItemCreationFormModal extends PureComponent {
                   span: 20,
                 }}
               >
-                {getFieldDecorator('imagePath', {
-                  rules: [
-                    {
-                      required: true,
-                      min: 1,
-                      message: '请上传图片',
-                    }],
-                })(
-                  (upload)
-                  )}
+                {upload}
               </FormItem>
             </Col>
           </Row>
@@ -300,18 +321,18 @@ export default class ItemCreationFormModal extends PureComponent {
               <FormItem
                 required="true"
               >
-                {getFieldDecorator('richDescription', {
+                {/* {getFieldDecorator('richDescription', {
                   rules: [
                     {
                       required: true,
                       min: 8,
                       message: '必须输入富文本',
                     }],
-                })(
-                  <MyBraftEditor
-                    onHTMLChange={this.richHtmlChange}
-                  />
-                  )}
+                })} */}
+                <MyBraftEditor
+                  onHTMLChange={this.richHtmlChange}
+                  value={this.state.richDescription}
+                />
               </FormItem>
             </Col>
           </Row>
