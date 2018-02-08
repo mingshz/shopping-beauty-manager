@@ -7,7 +7,7 @@ import { requestJson, putJson, trueOnSuccessful, postJson } from '../utils/reque
  * @returns {boolean} 是否可以被提交审核
  */
 export function shouldCommit(data) {
-  return data.auditStatus === 'NOT_SUBMIT' || data.auditStatus === 'AUDIT_FAILED';
+  return data.auditStatus === '待提交' || data.auditStatus === '审核不通过';
 }
 
 /**
@@ -15,7 +15,10 @@ export function shouldCommit(data) {
  * @returns 待审核的项目
  */
 export async function getAuditItem(params) {
-  return requestJson(`/item?${stringify(params)}`);
+  return requestJson(`/item?${stringify({
+    ...params,
+    auditStatus: 'TO_AUDIT',
+  })}`);
 }
 
 /**
