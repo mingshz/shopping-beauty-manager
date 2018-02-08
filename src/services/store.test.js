@@ -27,7 +27,7 @@ describe('门店测试', () => {
   });
   it('获取门店代表', () => {
     return getStoreRepresent(3388).then((result) => {
-      expect(result.data.length).toBeGreaterThanOrEqual(10);
+      expect(result.list.length).toBeGreaterThanOrEqual(10);
     });
   });
   it('新增门店代表', () => {

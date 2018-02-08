@@ -94,7 +94,12 @@ export default class ItemCreationFormModal extends PureComponent {
         accept="image/*"
         name="file"
         listType="picture-card"
-        className="avatar-uploader"
+        style={{
+          width: 102,
+          height: 102,
+        }}
+        // className={styles.upload}
+        // className="avatar-uploader"
         showUploadList={false}
         // action="//jsonplaceholder.typicode.com/posts/"
         withCredentials
@@ -237,7 +242,7 @@ export default class ItemCreationFormModal extends PureComponent {
             </Col>
           </Row>
           <Row gutter={{ md: 8, sm: 16, lg: 24, xl: 48 }}>
-            <Col md={12} sm={24}>
+            <Col span={24}>
               <FormItem
                 required="true"
                 label="图片"
@@ -245,7 +250,10 @@ export default class ItemCreationFormModal extends PureComponent {
                   width: '100%',
                 }}
                 labelCol={{
-                  span: 8,
+                  span: 4,
+                }}
+                wrapperCol={{
+                  span: 20,
                 }}
               >
                 {getFieldDecorator('imagePath', {
