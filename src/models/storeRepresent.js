@@ -1,4 +1,5 @@
 import { getStoreRepresent, newStoreRepresent, updateStoreRepresent, deleteStoreRepresent } from '../services/store';
+import { deleteProperty } from '../utils/utils';
 
 export default {
   namespace: 'storeRepresent',
@@ -20,7 +21,7 @@ export default {
   },
   effects: {
     /**
-     * payload包含id,store
+     * payload包含 id,store
      */
     *deleteOne({ payload }, { call, put }) {
       yield put({
@@ -34,7 +35,7 @@ export default {
       });
     },
     /**
-     * payload包含id,target,store
+     * payload包含 id,target,store
      */
     *changeEnableTo({ payload }, { call, put }) {
       yield put({
@@ -48,7 +49,7 @@ export default {
       });
     },
     /**
-     * 需包含store,login都为id
+     * 需包含store,login 都为id
      */
     *add({ payload, callback }, { call, put }) {
       yield put({
@@ -80,7 +81,7 @@ export default {
         payload: true,
       });
       // 是否需要重新组织payload?
-      const result = yield call(getStoreRepresent, payload);
+      const result = yield call(getStoreRepresent, payload.store, deleteProperty(payload, 'store'));
       result.list = result.list || result.data;
       yield put({
         type: 'save',

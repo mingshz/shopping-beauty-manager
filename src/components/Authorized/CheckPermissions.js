@@ -3,6 +3,12 @@ import intersection from 'array-intersection';
 import PromiseRender from './PromiseRender';
 import { CURRENT } from './index';
 import { AuthorityRoot } from '../../services/manager';
+
+function isRoot(input) {
+  if (input.constructor.name === 'Array' && input.filter(s => s === AuthorityRoot).length > 0) { return true; }
+  if (input.constructor.name === 'String' && input === AuthorityRoot) { return true; }
+  return false;
+}
 /**
  * 通用权限检查方法
  * Common check permissions method
@@ -18,7 +24,7 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
     return target;
   }
   // root可以通过本地设置伪装成为其他角色
-  if (currentAuthority === AuthorityRoot && localStorage.getItem('FA')) {
+  if (isRoot(currentAuthority) && localStorage.getItem('FA')) {
     // eslint-disable-next-line
     currentAuthority = localStorage.getItem('FA');
   }
