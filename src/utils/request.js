@@ -5,6 +5,12 @@ function parseJSON(response) {
   return response.json();
 }
 
+export function errorWithResponse(response, msg) {
+  const error = new Error(msg);
+  error.response = response;
+  return error;
+}
+
 /**
  * @param {ServerResponse} response 响应
  * @returns {boolean} 只要是2开头的响应那就是true
@@ -12,7 +18,7 @@ function parseJSON(response) {
 export function trueOnSuccessful(response) {
   if (!response.ok) {
     // console.warn(response);
-    throw new Error('bad response status: ', response.status);
+    throw errorWithResponse(response, `bad response status:${response.status}`);
   }
   return response.ok;
 }
@@ -32,9 +38,7 @@ function onlyJson(response) {
   if (type && type.indexOf('application/json') !== -1) {
     return response;
   }
-  const error = new Error(`except application/json, but ${type}`);
-  error.response = response;
-  throw error;
+  throw errorWithResponse(response, `except application/json, but ${type}`);
 }
 
 /**

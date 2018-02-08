@@ -41,7 +41,8 @@ export async function loginResult(id) {
       return null;
     }
     if (response.status !== 200) {
-      throw new Error(`不期望的响应:${response.status}`);
+      return null;
+      // throw errorWithResponse(response, `不期望的响应:${response.status}`);
     }
     return response.json();
   });
