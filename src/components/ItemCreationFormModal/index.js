@@ -58,7 +58,7 @@ export default class ItemCreationFormModal extends PureComponent {
       return;
     }
     if (info.file.status === 'done') {
-      // 我们判断一下如果是来自 //jsonplaceholder.typicode.com/posts/ 的伪实现 那么我们就伪造结果
+      // 我们判断一下如果是来自 faker的伪实现 那么我们就伪造结果
       // 反之就使用正常结果
       if (info.file.response.id && !info.file.response.path) {
         getBase64(info.file.originFileObj, url => finishFn(url, 'newImagePath'));
@@ -80,20 +80,12 @@ export default class ItemCreationFormModal extends PureComponent {
     });
   }
   richHtmlChange = (value) => {
-    // this.richDescription = value;
-    // const { form } = this.props;
-    console.log('update to:', value);
-    // form.setFieldsValue({
-    //   richDescription: value,
-    // });
     this.setState({
       richDescription: value,
     });
   }
   ok = () => {
-    console.log(this.state);
     const { onOk, form } = this.props;
-    console.log(onOk);
     if (!this.state.imagePath) {
       message.warn('请上传图片');
       return;
@@ -127,7 +119,6 @@ export default class ItemCreationFormModal extends PureComponent {
         name="file"
         listType="picture-card"
         // className={styles.upload}
-        // className="avatar-uploader"
         showUploadList={false}
         // action="//jsonplaceholder.typicode.com/posts/"
         withCredentials

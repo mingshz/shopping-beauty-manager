@@ -15,7 +15,7 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
  * data object 必选 获取当前数据，结果结构为{list,pagination}
  * loading boolean 必选 获取当前loading状态
  * table class 必选 获取table的实现类
- * propsLayout object 可选 给layou更多参数
+ * propsLayout object 可选 给 layout 更多参数
  * propsTable object 可选 给table更多参数
  * creationFormOptions object https://ant.design/components/form-cn/#Form.create(options)
  * creationTitle string 可选 创建新的表单的标题
@@ -37,7 +37,7 @@ export default class AbstractTablePage extends PureComponent {
       const { fetchData } = this.props;
       fetchData();
     }
-    // 隐藏or显示Modal
+    // 隐藏 or 显示 Modal
     handleModalVisible = (flag) => {
       this.setState({
         modalVisible: !!flag,
