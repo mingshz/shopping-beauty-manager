@@ -47,12 +47,12 @@ export default class ItemCreationFormModal extends PureComponent {
       console.log(info.file.response);
       const finishFn = (url, path) => {
         console.log('finish:', url, ' path:', path);
+        form.setFieldsValue({
+          imagePath: path,
+        });
         this.setState({
           imageUrl: url,
           loading: false,
-        });
-        form.setFieldsValue({
-          imagePath: path,
         });
       };
       // 我们判断一下如果是来自 //jsonplaceholder.typicode.com/posts/ 的伪实现 那么我们就伪造结果
