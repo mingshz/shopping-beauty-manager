@@ -3,7 +3,7 @@ import { requestJson, putJson, trueOnSuccessful } from '../utils/request';
 
 /**
  * 用户列表
- * @param {*} params 请求参数 loginId,loginType,enable,mobile
+ * @param {*} params 请求参数 loginId,loginType,enabled,mobile
  */
 export async function getLogin(params) {
   return requestJson(`/login?${stringify(params)}`);

@@ -148,7 +148,7 @@ class LoginList extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={16} sm={36}>
             <FormItem label="用户状态">
-              {getFieldDecorator('enable')(
+              {getFieldDecorator('enabled')(
                 <RadioGroup >
                   <RadioButton value="true">已激活</RadioButton>
                   <RadioButton value="false">未激活</RadioButton>

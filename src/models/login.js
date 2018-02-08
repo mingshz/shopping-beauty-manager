@@ -30,6 +30,7 @@ export default {
     *selectLogin({ payload }, { call, put }) {
       const result = yield call(getLogin, {
         mobile: payload,
+        enabled: true,
       });
       const list = result.list || result.data;
       yield put({
