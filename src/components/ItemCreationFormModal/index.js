@@ -46,6 +46,7 @@ export default class ItemCreationFormModal extends PureComponent {
       const { form } = this.props;
       console.log(info.file.response);
       const finishFn = (url, path) => {
+        console.log('finish:', url, ' path:', path);
         this.setState({
           imageUrl: url,
           loading: false,
