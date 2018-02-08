@@ -43,12 +43,13 @@ export default class ItemCreationFormModal extends PureComponent {
       return;
     }
     if (info.file.status === 'done') {
+      const { form } = this.props;
+      console.log(info.file.response);
       const finishFn = (url, path) => {
         this.setState({
           imageUrl: url,
           loading: false,
         });
-        const { form } = this.props;
         form.setFieldsValue({
           imagePath: path,
         });
@@ -256,7 +257,7 @@ export default class ItemCreationFormModal extends PureComponent {
                   rules: [
                     {
                       required: true,
-                      min: 3,
+                      min: 1,
                       message: '请上传图片',
                     }],
                 })(
