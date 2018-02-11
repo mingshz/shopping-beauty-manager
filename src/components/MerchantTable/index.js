@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Alert, Table, Switch } from 'antd';
 import styles from './index.less';
+import { columnsForSort } from '../../utils/utils';
 
 export default class MerchantTable extends PureComponent {
   state = {
@@ -28,6 +29,10 @@ export default class MerchantTable extends PureComponent {
 
   handleTableChange = (pagination, filters, sorter) => {
     this.props.onChange(pagination, filters, sorter);
+    this.setState({
+      // filteredInfo: filters,
+      sortedInfo: sorter,
+    });
   }
 
   cleanSelectedKeys = () => {
@@ -37,6 +42,8 @@ export default class MerchantTable extends PureComponent {
     const { selectedRowKeys } = this.state;
     const { data: { list, pagination, changingEnableId }, loading, doDelete
       , changeEnabledSupplier, subPageClickSupplier } = this.props;
+    let { sortedInfo } = this.state;
+    sortedInfo = sortedInfo || {};
 
     // const status = ['关闭', '运行中', '已上线', '异常'];
     // const clickMe = id => () => {
@@ -47,6 +54,7 @@ export default class MerchantTable extends PureComponent {
       {
         title: 'ID',
         dataIndex: 'id',
+        sorter: true,
         render: (value) => {
           return <span onClick={subPageClickSupplier(value)}>{value}</span>;
         },
@@ -54,18 +62,22 @@ export default class MerchantTable extends PureComponent {
       {
         title: '登录名',
         dataIndex: 'username',
+        sorter: true,
       },
       {
         title: '名称',
         dataIndex: 'name',
+        sorter: true,
       },
       {
         title: '联系人',
         dataIndex: 'contact',
+        sorter: true,
       },
       {
         title: '联系电话',
         dataIndex: 'telephone',
+        sorter: true,
       },
       {
         title: '地址',
@@ -74,6 +86,7 @@ export default class MerchantTable extends PureComponent {
       {
         title: '激活',
         dataIndex: 'enabled',
+        sorter: true,
         render: (value, obj) => {
           let onChange = null;
           if (changeEnabledSupplier) {
@@ -91,6 +104,7 @@ export default class MerchantTable extends PureComponent {
       {
         title: '创建时间',
         dataIndex: 'createTime',
+        sorter: true,
       },
     ];
 
@@ -142,7 +156,7 @@ export default class MerchantTable extends PureComponent {
           // rowKey={record => record.key}
           rowSelection={rowSelection}
           dataSource={list}
-          columns={columns}
+          columns={columnsForSort(columns, sortedInfo)}
           pagination={paginationProps}
           onChange={this.handleTableChange}
         />

@@ -3,6 +3,7 @@ import { Alert, Table, Switch, Tag, Divider } from 'antd';
 import LevelChooser from '../../components/LevelChooser';
 import styles from './index.less';
 import { authorityName } from '../../services/manager';
+import { columnsForSort } from '../../utils/utils';
 
 export default class ManagerTable extends PureComponent {
   state = {
@@ -45,6 +46,10 @@ export default class ManagerTable extends PureComponent {
 
   handleTableChange = (pagination, filters, sorter) => {
     this.props.onChange(pagination, filters, sorter);
+    this.setState({
+      // filteredInfo: filters,
+      sortedInfo: sorter,
+    });
   }
 
   cleanSelectedKeys = () => {
@@ -53,6 +58,8 @@ export default class ManagerTable extends PureComponent {
   render() {
     const { selectedRowKeys } = this.state;
     const { data: { list, pagination }, loading, doDelete, revokeManagerSupplier } = this.props;
+    let { sortedInfo } = this.state;
+    sortedInfo = sortedInfo || {};
 
     // const status = ['关闭', '运行中', '已上线', '异常'];
     // const clickMe = id => () => {
@@ -63,6 +70,7 @@ export default class ManagerTable extends PureComponent {
       {
         title: 'ID',
         dataIndex: 'id',
+        sorter: true,
         // render: (value) => {
         //   return <span onClick={subPageClickSupplier(value)}>{value}</span>;
         // },
@@ -70,10 +78,12 @@ export default class ManagerTable extends PureComponent {
       {
         title: '登录名',
         dataIndex: 'username',
+        sorter: true,
       },
       {
         title: '昵称',
-        dataIndex: 'nickName',
+        dataIndex: 'nickname',
+        sorter: true,
       },
       // {
       //   title: '联系人',
@@ -92,6 +102,7 @@ export default class ManagerTable extends PureComponent {
       {
         title: '激活',
         dataIndex: 'enabled',
+        sorter: true,
         render: (value) => {
           // let onChange = null;
           // if (changeEnabledSupplier) {
@@ -109,6 +120,7 @@ export default class ManagerTable extends PureComponent {
       {
         title: '创建时间',
         dataIndex: 'createTime',
+        sorter: true,
       },
       {
         title: '权限',
@@ -190,7 +202,7 @@ export default class ManagerTable extends PureComponent {
           // rowKey={record => record.key}
           rowSelection={rowSelection}
           dataSource={list}
-          columns={columns}
+          columns={columnsForSort(columns, sortedInfo)}
           pagination={paginationProps}
           onChange={this.handleTableChange}
         />

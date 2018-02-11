@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { Alert, Table, Switch, Divider } from 'antd';
 import LevelChooser from '../../components/LevelChooser';
 import styles from './index.less';
+import { columnsForSort } from '../../utils/utils';
 
 export default class MerchantManagerTable extends PureComponent {
   state = {
@@ -44,6 +45,10 @@ export default class MerchantManagerTable extends PureComponent {
 
   handleTableChange = (pagination, filters, sorter) => {
     this.props.onChange(pagination, filters, sorter);
+    this.setState({
+      // filteredInfo: filters,
+      sortedInfo: sorter,
+    });
   }
 
   cleanSelectedKeys = () => {
@@ -58,15 +63,19 @@ export default class MerchantManagerTable extends PureComponent {
     // const clickMe = id => () => {
     //   console.log('click me ', id);
     // };
+    let { sortedInfo } = this.state;
+    sortedInfo = sortedInfo || {};
 
-    const columns = [
+    const originColumns = [
       {
         title: 'ID',
         dataIndex: 'id',
+        sorter: true,
       },
       {
         title: '登录名',
         dataIndex: 'username',
+        sorter: true,
       },
       {
         title: '权限',
@@ -75,6 +84,7 @@ export default class MerchantManagerTable extends PureComponent {
       {
         title: '激活',
         dataIndex: 'enabled',
+        sorter: true,
         render: (value, obj) => {
           let onChange = null;
           if (changeEnabledSupplier) {
@@ -92,6 +102,7 @@ export default class MerchantManagerTable extends PureComponent {
       {
         title: '创建时间',
         dataIndex: 'createTime',
+        sorter: true,
       },
       // {
       //   title: '权限',
@@ -106,7 +117,7 @@ export default class MerchantManagerTable extends PureComponent {
     const openLevelSetChangeFor = this.openLevelSetChangeFor;
     // 此处可以撤销管理员
     if (revokeManagerSupplier) {
-      columns.push({
+      originColumns.push({
         title: '操作',
         render(value, data) {
           const revoke = revokeManagerSupplier(data.id);
@@ -121,6 +132,8 @@ export default class MerchantManagerTable extends PureComponent {
         },
       });
     }
+
+    const columns = columnsForSort(originColumns, sortedInfo);
 
     const paginationProps = {
       showSizeChanger: true,

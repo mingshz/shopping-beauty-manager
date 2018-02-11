@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Alert, Table, Switch, Avatar } from 'antd';
 import styles from './index.less';
+import { columnsForSort } from '../../utils/utils';
 // import Authorized from '../Authorized/Authorized';
 // import { AuthorityRoot } from '../../services/manager';
 
@@ -30,6 +31,10 @@ export default class LoginTable extends PureComponent {
 
   handleTableChange = (pagination, filters, sorter) => {
     this.props.onChange(pagination, filters, sorter);
+    this.setState({
+      // filteredInfo: filters,
+      sortedInfo: sorter,
+    });
   }
 
   cleanSelectedKeys = () => {
@@ -40,6 +45,8 @@ export default class LoginTable extends PureComponent {
     const { data: { list, pagination }, loading
       , changeEnabledSupplier, changingEnableId } = this.props;
       // updateLoginManageableSupplier,
+    let { sortedInfo } = this.state;
+    sortedInfo = sortedInfo || {};
 
     // const status = ['关闭', '运行中', '已上线', '异常'];
 
@@ -47,18 +54,22 @@ export default class LoginTable extends PureComponent {
       {
         title: 'ID',
         dataIndex: 'id',
+        sorter: true,
       },
       {
         title: '手机号码',
         dataIndex: 'mobile',
+        sorter: true,
       },
       {
         title: '姓氏',
         dataIndex: 'name',
+        sorter: true,
       },
       {
         title: '昵称',
         dataIndex: 'wxNickName',
+        sorter: true,
       },
       {
         title: '头像',
@@ -70,14 +81,17 @@ export default class LoginTable extends PureComponent {
       {
         title: '创建时间',
         dataIndex: 'createTime',
+        sorter: true,
       },
       {
         title: '余额',
         dataIndex: 'balance',
+        sorter: true,
       },
       {
         title: '激活',
         dataIndex: 'enabled',
+        sorter: true,
         render: (value, obj) => {
           let onChange = null;
           if (changeEnabledSupplier) {
@@ -95,6 +109,7 @@ export default class LoginTable extends PureComponent {
       {
         title: '可推荐',
         dataIndex: 'guidable',
+        sorter: true,
         render: (value) => {
           // let onChange = null;
           // if (changeEnabledSupplier) {
@@ -168,7 +183,7 @@ export default class LoginTable extends PureComponent {
           // rowKey={record => record.key}
           rowSelection={rowSelection}
           dataSource={list}
-          columns={columns}
+          columns={columnsForSort(columns, sortedInfo)}
           pagination={paginationProps}
           onChange={this.handleTableChange}
         />

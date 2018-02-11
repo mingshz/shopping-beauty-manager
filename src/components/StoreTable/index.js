@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Alert, Table, Switch } from 'antd';
 import styles from './index.less';
+import { columnsForSort } from '../../utils/utils';
 
 export default class StoreTable extends PureComponent {
   state = {
@@ -28,6 +29,10 @@ export default class StoreTable extends PureComponent {
 
   handleTableChange = (pagination, filters, sorter) => {
     this.props.onChange(pagination, filters, sorter);
+    this.setState({
+      // filteredInfo: filters,
+      sortedInfo: sorter,
+    });
   }
 
   cleanSelectedKeys = () => {
@@ -37,11 +42,14 @@ export default class StoreTable extends PureComponent {
     const { selectedRowKeys } = this.state;
     const { data: { list, pagination, changingEnableId }, loading, doDelete
       , changeEnabledSupplier, subPageClickSupplier } = this.props;
+    let { sortedInfo } = this.state;
+    sortedInfo = sortedInfo || {};
 
     const columns = [
       {
         title: 'ID',
         dataIndex: 'id',
+        sorter: true,
         render: (value) => {
           if (!subPageClickSupplier) {
             return value;
@@ -52,18 +60,22 @@ export default class StoreTable extends PureComponent {
       {
         title: '登录名',
         dataIndex: 'username',
+        sorter: true,
       },
       {
         title: '名称',
         dataIndex: 'name',
+        sorter: true,
       },
       {
         title: '联系人',
         dataIndex: 'contact',
+        sorter: true,
       },
       {
         title: '联系电话',
         dataIndex: 'telephone',
+        sorter: true,
       },
       {
         title: '地址',
@@ -72,6 +84,7 @@ export default class StoreTable extends PureComponent {
       {
         title: '激活',
         dataIndex: 'enabled',
+        sorter: true,
         render: (value, obj) => {
           let onChange = null;
           if (changeEnabledSupplier) {
@@ -89,6 +102,7 @@ export default class StoreTable extends PureComponent {
       {
         title: '创建时间',
         dataIndex: 'createTime',
+        sorter: true,
       },
     ];
 
@@ -97,7 +111,7 @@ export default class StoreTable extends PureComponent {
         title: '操作',
         render: (_, record) => (
           <Fragment>
-            {doDelete ? (<a onClick={doDelete(record ? record.id : null)}>删除</a>) : null }
+            {doDelete ? (<a onClick={doDelete(record ? record.id : null)}>删除</a>) : null}
             {/* <Divider type="vertical" />
             <a href="">订阅警报</a> */}
           </Fragment>
@@ -140,7 +154,7 @@ export default class StoreTable extends PureComponent {
           // rowKey={record => record.key}
           rowSelection={rowSelection}
           dataSource={list}
-          columns={columns}
+          columns={columnsForSort(columns, sortedInfo)}
           pagination={paginationProps}
           onChange={this.handleTableChange}
         />

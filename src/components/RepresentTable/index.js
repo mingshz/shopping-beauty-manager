@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Alert, Table, Switch } from 'antd';
 import styles from './index.less';
+import { columnsForSort } from '../../utils/utils';
 
 /**
  * 门店代表列表
@@ -31,6 +32,10 @@ export default class RepresentTable extends PureComponent {
 
   handleTableChange = (pagination, filters, sorter) => {
     this.props.onChange(pagination, filters, sorter);
+    this.setState({
+      // filteredInfo: filters,
+      sortedInfo: sorter,
+    });
   }
 
   cleanSelectedKeys = () => {
@@ -40,6 +45,8 @@ export default class RepresentTable extends PureComponent {
     const { selectedRowKeys } = this.state;
     const { data: { list, pagination }, changingEnableId, loading, doDelete
       , changeEnabledSupplier } = this.props;
+    let { sortedInfo } = this.state;
+    sortedInfo = sortedInfo || {};
 
     // const status = ['关闭', '运行中', '已上线', '异常'];
     // const clickMe = id => () => {
@@ -50,14 +57,17 @@ export default class RepresentTable extends PureComponent {
       {
         title: '登录名',
         dataIndex: 'username',
+        sorter: true,
       },
       {
         title: '手机号码',
         dataIndex: 'mobile',
+        sorter: true,
       },
       {
         title: '激活',
         dataIndex: 'enabled',
+        sorter: true,
         render: (value, obj) => {
           let onChange = null;
           if (changeEnabledSupplier) {
@@ -75,6 +85,7 @@ export default class RepresentTable extends PureComponent {
       {
         title: '创建时间',
         dataIndex: 'createTime',
+        sorter: true,
       },
     ];
 
@@ -126,7 +137,7 @@ export default class RepresentTable extends PureComponent {
           // rowKey={record => record.key}
           rowSelection={rowSelection}
           dataSource={list}
-          columns={columns}
+          columns={columnsForSort(columns, sortedInfo)}
           pagination={paginationProps}
           onChange={this.handleTableChange}
         />

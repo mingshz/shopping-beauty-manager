@@ -95,3 +95,20 @@ export function openLoginSelector(page, okHandler, config) {
     destroy: close,
   };
 }
+
+/**
+ * @param {Array<Object>} columns 源columns
+ * @param {*} sortedInfo 排序信息
+ * @returns {Array<Object>}具备排序功能的columns
+ */
+export function columnsForSort(columns, sortedInfo) {
+  return columns.map((c) => {
+    if (!c.sorter) { return c; }
+    const key = c.key || c.dataIndex;
+    if (!key) { return c; }
+    return {
+      sortOrder: sortedInfo.columnKey === key && sortedInfo.order,
+      ...c,
+    };
+  });
+}
