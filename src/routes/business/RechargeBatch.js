@@ -1,7 +1,7 @@
 // 虽然放在routes中，其实只是一个组件
 import { connect } from 'dva';
 import React, { PureComponent } from 'react';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import AbstractTablePage from '../util/AbstractTablePage';
 import LoginSelector from '../../components/LoginSelector';
 import RechargeBatchTable from '../../components/RechargeBatchTable';
@@ -17,6 +17,15 @@ export default class RechargeBatch extends PureComponent {
        * 显示 NewForm modal
        */
       showNewModal2: false,
+    }
+    sendEmail = id => () => {
+      this.props.dispatch({
+        type: 'rechargeBatch/send',
+        payload: id,
+        callback: () => {
+          message.info('已重新发送');
+        },
+      });
     }
     /**
      * 如果是要打开那么我就得先fetch完了 再打开
@@ -104,6 +113,9 @@ export default class RechargeBatch extends PureComponent {
           table={RechargeBatchTable}
         //   renderFormComponent={this.searchForm}
           propsTable={{
+            auditOperationSupplier: {
+              send: this.sendEmail,
+            },
             }}
         />
       );
