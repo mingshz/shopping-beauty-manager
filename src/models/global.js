@@ -1,5 +1,5 @@
 import equals from 'equals';
-import { getCurrent, loginRequest, loginResult, logout } from '../services/manager';
+import { getCurrent, loginRequest, loginResult, logout, getInit } from '../services/manager';
 import { setLocalAuthority, getLocalAuthority, setLocalMerchantId } from '../utils/authorityStorage';
 
 /**
@@ -52,6 +52,7 @@ export default {
      * 包含id,url
      */
     loginRequest: {},
+    init: {},
   },
   effects: {
     /**
@@ -107,10 +108,23 @@ export default {
         payload: false,
       });
     },
+    *fetchInit(_, { call, put }) {
+      const x = yield call(getInit);
+      yield put({
+        type: 'changedInit',
+        payload: x,
+      });
+    },
     // *fetch({ payload }, { call, put }) {
     // },
   },
   reducers: {
+    changedInit(state, action) {
+      return {
+        ...state,
+        init: action.payload,
+      };
+    },
     changeLoginRequest(state, action) {
       return {
         ...state,

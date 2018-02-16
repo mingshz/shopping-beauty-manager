@@ -94,6 +94,10 @@ export const getRouterData = (app) => {
       component: dynamicWrapper(app, ['itemAudit'], () => import('../routes/business/ItemAuditList')),
       authority: [AuthorityRoot, AuthorityPlatformItemAudit],
     },
+    '/business/recharge': {
+      component: dynamicWrapper(app, ['rechargeBatch', 'login'], () => import('../routes/business/Recharge')),
+      authority: [AuthorityRoot],
+    },
     // '/util/loginSelector': {
     //   component: dynamicWrapper(app, ['login'], () => import('../components/LoginSelector')),
     // },

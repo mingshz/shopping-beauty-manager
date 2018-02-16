@@ -37,7 +37,11 @@ const menuData = [{
   children: [{
     name: '项目审核',
     path: 'itemAudit',
-    authority: [AuthorityRoot, AuthorityPlatformItemAudit],
+    // authority: [AuthorityRoot, AuthorityPlatformItemAudit],
+  }, {
+    name: '充值卡管理',
+    path: 'recharge',
+    // authority: [AuthorityRoot],
   }],
 }, {
   name: '商户管理',

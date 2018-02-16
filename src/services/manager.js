@@ -15,6 +15,10 @@ export async function getCurrent() {
   return requestJson('/currentManager', null);
 }
 
+export async function getInit() {
+  return requestJson('/init');
+}
+
 /**
  * @returns {object} 如果包含 data 则已登录，否则需要执行登录
  */
