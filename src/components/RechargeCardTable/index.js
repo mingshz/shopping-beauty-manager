@@ -50,8 +50,7 @@ export default class RechargeCardTable extends PureComponent {
     let { sortedInfo, filteredInfo } = this.state;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
-
-    console.log('filteredInfo:', filteredInfo);
+    // console.log('filteredInfo:', filteredInfo);
     // colSpan
     const columns = [
       {
