@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { Tabs, Icon } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import RechargeBatch from './RechargeBatch';
+import RechargeCard from './RechargeCard';
 
 // eslint-disable-next-line
 const TabPane = Tabs.TabPane;
@@ -12,7 +13,7 @@ const TabPane = Tabs.TabPane;
 @connect(state => ({
   globalInit: state.global.init,
   rechargeBatch: state.rechargeBatch,
-  // current: state.store.currentStore,
+  rechargeCard: state.rechargeCard,
 }))
 export default class Recharge extends PureComponent {
   componentWillMount() {
@@ -21,7 +22,7 @@ export default class Recharge extends PureComponent {
     });
   }
   render() {
-    const { rechargeBatch } = this.props;
+    const { rechargeBatch, rechargeCard } = this.props;
 
     return (
       <PageHeaderLayout title="充值卡管理">
@@ -32,13 +33,12 @@ export default class Recharge extends PureComponent {
               data={rechargeBatch}
             />
           </TabPane>
-          {/* <TabPane tab={<span><Icon type="team" />代表</span>} key="2">
-              <StoreRepresent
-                {...this.props}
-                merchantId={this.myMerchantId()}
-                data={storeRepresent}
-              />
-            </TabPane> */}
+          <TabPane tab={<span><Icon type="database" />充值卡列表</span>} key="2">
+            <RechargeCard
+              {...this.props}
+              data={rechargeCard}
+            />
+          </TabPane>
         </Tabs>
       </PageHeaderLayout>
     );

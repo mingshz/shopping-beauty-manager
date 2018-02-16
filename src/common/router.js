@@ -95,7 +95,7 @@ export const getRouterData = (app) => {
       authority: [AuthorityRoot, AuthorityPlatformItemAudit],
     },
     '/business/recharge': {
-      component: dynamicWrapper(app, ['rechargeBatch', 'login'], () => import('../routes/business/Recharge')),
+      component: dynamicWrapper(app, ['rechargeBatch', 'rechargeCard', 'login'], () => import('../routes/business/Recharge')),
       authority: [AuthorityRoot],
     },
     // '/util/loginSelector': {

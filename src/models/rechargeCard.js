@@ -1,13 +1,9 @@
-// import { xxx } from '../services/xxx';
-export default {
+import { hasLoadingList } from '../utils/commonModel';
+import { getRechargeCards } from '../services/rechargeCard';
+
+export default hasLoadingList({
   namespace: 'rechargeCard',
   state: {
-    changing: false,
-    loading: true,
-    data: {
-      list: [],
-      pagination: {},
-    },
   },
   effects: {
     // *fetch({ payload }, { call, put }) {
@@ -20,5 +16,5 @@ export default {
     //   };
     // },
   },
-};
+}, getRechargeCards);
 
