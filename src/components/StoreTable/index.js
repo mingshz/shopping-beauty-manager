@@ -54,7 +54,7 @@ export default class StoreTable extends PureComponent {
           if (!subPageClickSupplier) {
             return value;
           }
-          return <span onClick={subPageClickSupplier(value)}>{value}</span>;
+          return <a onClick={subPageClickSupplier(value)}>{value}</a>;
         },
       },
       {

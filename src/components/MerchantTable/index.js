@@ -56,7 +56,7 @@ export default class MerchantTable extends PureComponent {
         dataIndex: 'id',
         sorter: true,
         render: (value) => {
-          return <span onClick={subPageClickSupplier(value)}>{value}</span>;
+          return <a onClick={subPageClickSupplier(value)}>{value}</a>;
         },
       },
       {

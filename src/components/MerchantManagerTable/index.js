@@ -56,7 +56,7 @@ export default class MerchantManagerTable extends PureComponent {
   }
   render() {
     const { selectedRowKeys } = this.state;
-    const { data: { list, pagination }, loading, revokeManagerSupplier, changeEnabledSupplier
+    const { data: { list, pagination }, loading, revokeManagerSupplier
       , changingEnableId } = this.props;
 
     // const status = ['关闭', '运行中', '已上线', '异常'];
