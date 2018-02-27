@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import { Alert, Table, Switch, Avatar } from 'antd';
 import styles from './index.less';
 import { columnsForSort } from '../../utils/utils';
-// import Authorized from '../Authorized/Authorized';
-// import { AuthorityRoot } from '../../services/manager';
+import Authorized from '../Authorized/Authorized';
+import { AuthorityRoot } from '../../services/manager';
 
 export default class LoginTable extends PureComponent {
   state = {
@@ -43,7 +43,7 @@ export default class LoginTable extends PureComponent {
   render() {
     const { selectedRowKeys } = this.state;
     const { data: { list, pagination }, loading
-      , changeEnabledSupplier, changingEnableId } = this.props;
+      , changeEnabledSupplier, changeGuidableSupplier, changingEnableId } = this.props;
       // updateLoginManageableSupplier,
     let { sortedInfo } = this.state;
     sortedInfo = sortedInfo || {};
@@ -110,18 +110,25 @@ export default class LoginTable extends PureComponent {
         title: '可推荐',
         dataIndex: 'guidable',
         sorter: true,
-        render: (value) => {
-          // let onChange = null;
-          // if (changeEnabledSupplier) {
-          //   // 获取改变的方法
-          //   onChange = changeEnabledSupplier(obj.merchantId);
-          // }
+        render: (value, obj) => {
+          let onChange = null;
+          if (changeEnabledSupplier) {
+            // 获取改变的方法
+            onChange = changeGuidableSupplier(obj.id);
+          }
           return (
-            <Switch
-              // onChange={onChange}
-              checked={value}
-              // loading={changingEnableId === obj.merchantId}
-            />);
+            <Authorized
+              authority={AuthorityRoot}
+              noMatch={(
+                <Switch checked={value} disable={false} />
+              )}
+            >
+              <Switch
+                onChange={onChange}
+                checked={value}
+              />
+            </Authorized>
+          );
         },
       },
     ];

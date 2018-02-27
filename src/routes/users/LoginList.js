@@ -50,6 +50,15 @@ class LoginList extends PureComponent {
       callback: this.fetchData,
     });
   }
+  changeGuidableSupplier = id => (value) => {
+    this.props.dispatch({
+      type: 'login/changeGuidableTo',
+      payload: {
+        id,
+        target: value,
+      },
+    });
+  }
   changeEnabledSupplier = id => (value) => {
     this.props.dispatch({
       type: 'login/changeEnableTo',
@@ -203,6 +212,7 @@ class LoginList extends PureComponent {
               onChange={this.handleStandardTableChange}
               updateLoginManageableSupplier={this.updateLoginManageableSupplier}
               changeEnabledSupplier={this.changeEnabledSupplier}
+              changeGuidableSupplier={this.changeGuidableSupplier}
               changingEnableId={changingEnableId}
             />
           </div>

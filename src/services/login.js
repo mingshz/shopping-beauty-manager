@@ -17,6 +17,14 @@ export async function updateEnabled(id, enabled) {
   return putJson(`/login/${id}/enabled`, enabled).then(trueOnSuccessful);
 }
 
+/**
+ * @param {String} id 用户id
+ * @param {boolean} enabled 与调整到的状态
+ */
+export async function updateGuidable(id, enabled) {
+  return putJson(`/login/${id}/guidable`, enabled).then(trueOnSuccessful);
+}
+
 export function humanReadName(data) {
   if (data.wxNickName) { return `${data.mobile}(${data.wxNickName})`; }
   return `${data.mobile}`;

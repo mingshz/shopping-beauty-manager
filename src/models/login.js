@@ -1,4 +1,4 @@
-import { getLogin, updateEnabled } from '../services/login';
+import { getLogin, updateEnabled, updateGuidable } from '../services/login';
 /**
  * 登录身份管理
  */
@@ -13,6 +13,13 @@ export default {
     select: [],
   },
   effects: {
+    *changeGuidableTo({ payload }, { call, put }) {
+      yield call(updateGuidable, payload.id, payload.target);
+      yield put({
+        type: 'changedGuidable',
+        payload,
+      });
+    },
     /**
      * payload 包含id,target
      */
@@ -57,6 +64,18 @@ export default {
     },
   },
   reducers: {
+    changedGuidable(state, action) {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          list: state.data.list.map(l => (l.id === action.payload.id ? {
+            ...l,
+            guidable: action.payload.target,
+          } : l)),
+        },
+      };
+    },
     changedEnable(state, action) {
       // loginId
       return {
