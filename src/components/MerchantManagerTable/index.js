@@ -86,14 +86,14 @@ export default class MerchantManagerTable extends PureComponent {
         dataIndex: 'enabled',
         sorter: true,
         render: (value, obj) => {
-          let onChange = null;
-          if (changeEnabledSupplier) {
-            // 获取改变的方法
-            onChange = changeEnabledSupplier(obj.id);
-          }
+          // const onChange = null;
+          // if (changeEnabledSupplier) {
+          //   // 获取改变的方法
+          //   onChange = changeEnabledSupplier(obj.id);
+          // }
           return (
             <Switch
-              onChange={onChange}
+              // onChange={onChange}
               checked={value}
               loading={changingEnableId === obj.id}
             />);
