@@ -155,7 +155,7 @@ export default class ItemCreationFormModal extends PureComponent {
                   rules: [
                     {
                       required: true,
-                      min: 3,
+                      min: 2,
                       message: '必须输入项目名称',
                     }],
                 })(
@@ -181,7 +181,7 @@ export default class ItemCreationFormModal extends PureComponent {
                   rules: [
                     {
                       required: true,
-                      min: 3,
+                      min: 2,
                       message: '必须输入项目类型',
                     }],
                 })(

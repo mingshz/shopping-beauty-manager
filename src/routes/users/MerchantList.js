@@ -66,7 +66,7 @@ export default class MerchantList extends PureComponent {
                 rules: [
                   {
                     required: true,
-                    min: 3,
+                    min: 2,
                     message: '必须输入商户名称',
                   }],
               })(
@@ -85,7 +85,7 @@ export default class MerchantList extends PureComponent {
                 rules: [
                   {
                     required: true,
-                    min: 3,
+                    min: 2,
                     message: '必须输入联系人',
                   }],
               })(

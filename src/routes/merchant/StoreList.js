@@ -65,7 +65,7 @@ export default class StoreList extends PureComponent {
                 rules: [
                   {
                     required: true,
-                    min: 3,
+                    min: 2,
                     message: '必须输入门店名称',
                   }],
               })(
@@ -84,7 +84,7 @@ export default class StoreList extends PureComponent {
                 rules: [
                   {
                     required: true,
-                    min: 3,
+                    min: 2,
                     message: '必须输入联系人',
                   }],
               })(
